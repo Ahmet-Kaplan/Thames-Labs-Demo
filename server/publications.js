@@ -1,4 +1,4 @@
-import { Activities, Companies, Contacts, CustomFields, Notifications, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks, Tenants } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, CustomFields, Notifications, Jobs, Tasks, Tenants } from '/imports/api/collections.js';
 Meteor.publish('userPresence', function() {
   var filter = {
     userId: {
@@ -125,11 +125,11 @@ Meteor.publish("activityByCompanyId", function(companyId) {
     companyId: companyId
   });
 });
-Meteor.publish("activityByProjectId", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
+Meteor.publish("activityByJobId", function(jobId) {
+  if (!Roles.userIsInRole(this.userId, ['CanReadJobs'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Activities.find({
-    projectId: projectId
+    jobId: jobId
   });
 });
 Meteor.publish("activityByPurchaseOrderId", function(purchaseOrderId) {
@@ -172,87 +172,30 @@ Meteor.publish("globalCustomFields", function() {
 });
 
 
-Meteor.publish("allProjects", function() {
-  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
+Meteor.publish("allJobs", function() {
+  if (!Roles.userIsInRole(this.userId, ['CanReadJobs'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Projects.find({});
+  return Jobs.find({});
 });
-Meteor.publish("projectsByCompanyId", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
+Meteor.publish("jobsByCompanyId", function(companyId) {
+  if (!Roles.userIsInRole(this.userId, ['CanReadJobs'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Projects.find({
+  return Jobs.find({
     companyId: companyId
   });
 });
-Meteor.publish("projectsByContactId", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
+Meteor.publish("jobsByContactId", function(contactId) {
+  if (!Roles.userIsInRole(this.userId, ['CanReadJobs'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Projects.find({
+  return Jobs.find({
     contactId: contactId
   });
 });
-Meteor.publish("projectById", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadProjects'])) return this.ready();
+Meteor.publish("jobById", function(jobId) {
+  if (!Roles.userIsInRole(this.userId, ['CanReadJobs'])) return this.ready();
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Projects.find({
-    _id: projectId
-  });
-});
-
-
-Meteor.publish("allPurchaseOrders", function() {
-  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return PurchaseOrders.find({});
-});
-Meteor.publish("purchaseOrdersByCompanyId", function(companyId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return PurchaseOrders.find({
-    supplierCompanyId: companyId
-  });
-});
-Meteor.publish("purchaseOrdersByContactId", function(contactId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return PurchaseOrders.find({
-    supplierContactId: contactId
-  });
-});
-Meteor.publish("purchaseOrdersByProjectId", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return PurchaseOrders.find({
-    projectId: projectId
-  });
-});
-Meteor.publish("purchaseOrderById", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return PurchaseOrders.find({
-    _id: purchaseOrderId
-  });
-});
-
-Meteor.publish("allPurchaseOrderItemsNoPOID", function() {
-  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return PurchaseOrderItems.find({});
-});
-
-Meteor.publish("allPurchaseOrderItems", function(purchaseOrderId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return PurchaseOrderItems.find({
-    purchaseOrderId: purchaseOrderId
-  });
-});
-
-Meteor.publish("allPurchaseOrderItemsByProject", function(projectId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadPurchaseOrders'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return PurchaseOrderItems.find({
-    projectId: projectId
+  return Jobs.find({
+    _id: jobId
   });
 });
 
@@ -295,69 +238,6 @@ Meteor.publish("subTasksByTaskId", function(taskId) {
   if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
   return Tasks.find({
     parentTaskId: taskId
-  });
-});
-
-//Products
-Meteor.publish("allProducts", function() {
-  if (!Roles.userIsInRole(this.userId, ['CanReadProducts'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Products.find({});
-});
-Meteor.publish("productById", function(productId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadProducts'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Products.find({
-    _id: productId
-  });
-});
-
-//Opportunities
-Meteor.publish("allOpportunities", function() {
-  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find();
-});
-Meteor.publish("opportunityById", function(oppId) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({
-    _id: oppId
-  });
-});
-Meteor.publish("opportunitiesByProjectId", function(id) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({
-    projectId: id
-  });
-});
-Meteor.publish("opportunitiesByCompanyId", function(id) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({
-    companyId: id,
-    // isArchived: {
-      // $ne: true
-    // }
-  });
-});
-Meteor.publish("opportunitiesByContactId", function(id) {
-  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({
-    contactId: id,
-    // isArchived: {
-      // $ne: true
-    // }
-  });
-});
-Meteor.publish("salesPipelineOpportunities", function() {
-  // Created separate publication in case we want to (e.g.) limit number returned
-  if (!Roles.userIsInRole(this.userId, ['CanReadOpportunities'])) return this.ready();
-  if (!this.userId || !Partitioner.getUserGroup(this.userId)) return this.ready();
-  return Opportunities.find({
-    isArchived: { $ne: true }
   });
 });
 

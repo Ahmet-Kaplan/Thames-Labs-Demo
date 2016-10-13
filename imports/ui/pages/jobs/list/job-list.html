@@ -1,0 +1,43 @@
+<template name="jobsList">
+
+  {{setPageTitle 'Jobs'}}
+
+  <div class="row list-header">
+      <div class="col-md-5">
+        <h1>Jobs {{#if archivedShown}} - <i>inactive</i>{{/if}}</h1>
+      </div>
+      <div class="col-md-7 list-header-right">
+        <div class="btn-group pull-right btn-fullWidth" role="group">
+            {{#if isInRole 'CanCreateJobs'}}
+              {{#unless isMobile}}
+                <button id="add-job" type="button" class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Ctrl+Alt+J"><i class="fa fa-fw fa-plus"></i> Add job</button>
+              {{/unless}}
+            {{/if}}
+            {{> smallSearchBox collectionName='jobs'}}
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+      {{> filterPanel collectionName='jobs' single='job'}}
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <ul class="list-toolbar pull-right">
+        {{> jobsOverview}}
+        {{> tagManagement collectionName='jobs'}}
+        {{#if isInRole 'Administrator'}}<li><a id="import" href="/settings/import?entity=jobs">Import</a></li>{{/if}}
+        {{> exportCollection entity="jobs"}}
+      </ul>
+    </div>
+  </div>
+
+  {{> searchResults index=JobsIndex listItemTemplateName='jobListItem'}}
+
+  {{#if isInRole 'CanCreateJobs'}}
+    {{#if isMobile}}
+      {{> fabAdd entity="Job"}}
+    {{/if}}
+  {{/if}}
+
+</template>

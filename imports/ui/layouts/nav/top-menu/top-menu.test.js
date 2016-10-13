@@ -10,8 +10,7 @@ if (Meteor.isClient) {
 
     it("displays the logo", function() {
       withRenderedTemplate('topMenu', {}, (el) => {
-        chai.assert.include($(el).text(), "RealTime");
-        chai.assert.include($(el).text(), "CRM");
+        chai.assert.include($(el).text(), "Thames Labs");
       });
     });
   });

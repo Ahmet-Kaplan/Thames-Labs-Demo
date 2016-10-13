@@ -54,7 +54,7 @@ const tour = new Tour({
       orphan: true,
       title: "Add tags",
       template: TourTemplates.finalStep,
-      content: "In order to use this tutorial a company must be added to RealTimeCRM. Please add a company before continuing."
+      content: "In order to use this tutorial a company must be added to Thames Labs. Please add a company before continuing."
     }
   ],
   backdropPadding: 5,

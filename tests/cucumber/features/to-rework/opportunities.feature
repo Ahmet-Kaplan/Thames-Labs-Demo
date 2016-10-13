@@ -123,7 +123,7 @@ Feature: Allow users to manage their sales opportunities
     Given I do not have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is not shown
 
-  Scenario: A user with permission can see the Opportunities menu item, a user without permission cannot 
+  Scenario: A user with permission can see the Opportunities menu item, a user without permission cannot
     Given I have the "CanReadOpportunities" permission
     Then the "Opportunities" menu item is shown
     Given I do not have the "CanReadOpportunities" permission
@@ -162,15 +162,15 @@ Feature: Allow users to manage their sales opportunities
 
   Scenario: A user can mark an opportunity as won but not reopen it
     Given I have the "CanEditOpportunities" permission
-    And a project type has been created
-    And I have the "CanReadProjects" permission
+    And a job type has been created
+    And I have the "CanReadJobs" permission
     And an "Opportunity" has been created
     When I go to an Opportunities detail page
     And I click "#next-stage"
     Then I should see "#previous-stage"
     And I click "#won-opportunity"
     And I click confirm on the modal
-    Then I should see that an project has been created from the opportunity
+    Then I should see that an job has been created from the opportunity
     And "#timeline" should contain "Converted from won opportunity"
     When I navigate backwards in the browser history
     And "#timeline" should contain "Test User marked this opportunity as won"

@@ -1,5 +1,5 @@
 import './global-search.html';
-import { Companies, Contacts, Opportunities, Products, Projects, PurchaseOrders} from '/imports/api/collections.js';
+import { Companies, Contacts, Opportunities, Products, Jobs, PurchaseOrders} from '/imports/api/collections.js';
 
 Template.globalSearch.onCreated(function() {
   this.query = new ReactiveVar("");
@@ -36,12 +36,12 @@ Template.globalSearch.onRendered(function() {
     const contactsResultCursor = Contacts.index.search(this.query.get(), searchOptions);
     const opportunitiesResultCursor = Opportunities.index.search(this.query.get(), searchOptions);
     const productsResultCursor = Products.index.search(this.query.get(), searchOptions);
-    const projectsResultCursor = Projects.index.search(this.query.get(), searchOptions);
+    const jobsResultCursor = Jobs.index.search(this.query.get(), searchOptions);
     const poResultCursor = PurchaseOrders.index.search(this.query.get(), searchOptions);
 
     const cursorsReady = companiesResultCursor.isReady() && contactsResultCursor.isReady()
       && opportunitiesResultCursor.isReady() && productsResultCursor.isReady()
-      && projectsResultCursor.isReady();
+      && jobsResultCursor.isReady();
 
     if (cursorsReady) {
       searchBox.clearOptions();
@@ -58,8 +58,8 @@ Template.globalSearch.onRendered(function() {
       _.each(productsResultCursor.fetch(), function(product) {
         results.push({url: `/products/${product.__originalId}`, name: product.name, entity: "Product"});
       });
-      _.each(projectsResultCursor.fetch(), function(project) {
-        results.push({url: `/projects/${project.__originalId}`, name: project.name, entity: "Project"});
+      _.each(jobsResultCursor.fetch(), function(job) {
+        results.push({url: `/jobs/${job.__originalId}`, name: job.name, entity: "Job"});
       });
       _.each(poResultCursor.fetch(), function(po) {
         results.push({url: `/purchaseOrders/${po.__originalId}`, name: po.description, entity: "Purchase Order"});

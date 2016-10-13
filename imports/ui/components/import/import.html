@@ -7,7 +7,7 @@
         <option selected="{{#if companies}}selected{{/if}}" value="companies">Companies</option>
         <option selected="{{#if contacts}}selected{{/if}}" value="contacts">Contacts</option>
         <option selected="{{#if opportunities}}selected{{/if}}" value="opportunities">Opportunities</option>
-        <option selected="{{#if projects}}selected{{/if}}" value="projects">Projects</option>
+        <option selected="{{#if jobs}}selected{{/if}}" value="jobs">Jobs</option>
         <option selected="{{#if products}}selected{{/if}}" value="products">Products</option>
         <option selected="{{#if purchaseOrders}}selected{{/if}}" value="purchaseorders">Purchase Orders</option>
         <option selected="{{#if tasks}}selected{{/if}}" value="tasks">Tasks</option>
@@ -19,7 +19,7 @@
   <div class="settings-section">
     <h4 class="{{#if greaterThan currentStage 2}}slim text-muted{{/if}}">2. Select a CSV data file</h4>
     {{#unless greaterThan currentStage 2}}
-      <p>Pick a CSV file from your computer containing the records you wish to import into RealTimeCRM.</p>
+      <p>Pick a CSV file from your computer containing the records you wish to import into Thames Labs.</p>
       <button class="btn btn-primary upload-csv">Select a CSV file</button>{{#if fileName}} <span class="text-success"> <i class="fa fa-fw fa-check"></i></span> Selected "<span class="text-success">{{fileName}}</span>"{{/if}}
       <input type="file" id="data-upload" style="display:none;">
       <br>
@@ -28,7 +28,7 @@
   <div class="settings-section">
     <h4 class="{{#unless equals currentStage 2}}slim text-muted{{/unless}}">3. Choose data columns</h4>
     {{#if equals currentStage 2}}
-      <p>Use the drop-downs below to map each of the fields in your CSV file to the relevant RealTimeCRM fields. RealTimeCRM will try and match the field names for you automatically based on the field name.</p>
+      <p>Use the drop-downs below to map each of the fields in your CSV file to the relevant Thames Labs fields. Thames Labs will try and match the field names for you automatically based on the field name.</p>
 
       {{> mapFields csvFields=unprocessedDataFields entity=entityType fieldMap=fieldMap}}
 
@@ -59,7 +59,7 @@
           </ol>
         </div>
       {{else}}
-      <p class="text-success">Your records were successfully imported into RealTimeCRM</p>
+      <p class="text-success">Your records were successfully imported into Thames Labs</p>
       {{/if}}
       <a href="#" id="import-more">Import more data</a>
     {{/if}}

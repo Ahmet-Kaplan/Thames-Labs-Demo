@@ -8,7 +8,7 @@ const tour = new Tour({
     {
       element: "#menu-link-companies",
       title: "Search and filters",
-      content: "This interactive tutorial will teach you how to use the advanced search and filter functionality in RealTimeCRM.",
+      content: "This interactive tutorial will teach you how to use the advanced search and filter functionality in Thames Labs.",
       onNext: function(t) {
         FlowRouter.go('/companies');
       },

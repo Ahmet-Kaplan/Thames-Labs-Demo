@@ -61,7 +61,7 @@ Template.activityTimeline.helpers({
         return 'user';
       case 'opportunities':
         return 'lightbulb-o';
-      case 'projects':
+      case 'jobs':
         return 'sitemap';
       case 'purchaseorders':
         return 'shopping-cart';
@@ -77,8 +77,8 @@ Template.activityTimeline.helpers({
         return 'contact';
       case 'opportunities':
         return 'opportunity';
-      case 'projects':
-        return 'project';
+      case 'jobs':
+        return 'job';
       case 'purchaseorders':
         return 'purchase order';
       case 'tasks':
@@ -93,8 +93,8 @@ Template.activityTimeline.helpers({
         return 'contact';
       case 'opportunities':
         return 'opportunity';
-      case 'projects':
-        return 'project';
+      case 'jobs':
+        return 'job';
       case 'purchaseorders':
         return 'purchaseOrder';
     }

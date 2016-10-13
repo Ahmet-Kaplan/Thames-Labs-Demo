@@ -1,7 +1,7 @@
 export const ContactSchema = new SimpleSchema({
   sequencedIdentifier: {
     type: Number,
-    label: "RealTime ID",
+    label: "ID",
     optional: true
   },
   title: {

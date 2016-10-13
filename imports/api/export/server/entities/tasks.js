@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { moment } from 'meteor/momentjs:moment';
 import { Meteor } from 'meteor/meteor';
-import { Companies, Contacts, Projects, Opportunities } from '/imports/api/collections.js';
+import { Companies, Contacts, Jobs, Opportunities } from '/imports/api/collections.js';
 
 //This function takes an task JSON object, and returns another JSON object with required headings for export
 const formatTaskForExport = (record) => {
@@ -28,11 +28,11 @@ const formatTaskForExport = (record) => {
         });
         record.relatedRecord = opportunity ? opportunity.name : null;
         break;
-      case 'project':
-        const project = Projects.findOne({
+      case 'job':
+        const job = Jobs.findOne({
           _id: record.entityId
         });
-        record.relatedRecord = project ? project.name : null;
+        record.relatedRecord = job ? job.name : null;
         break;
       case 'user':
         const user = Meteor.users.findOne({

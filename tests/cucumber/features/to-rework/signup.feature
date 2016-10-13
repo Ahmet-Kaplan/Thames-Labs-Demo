@@ -13,7 +13,7 @@ Feature: Allow users to sign up to the app
 	Scenario: A user should sign up with good details
 		When I sign up with good details
 		Then I am signed up
-    And I should see a modal 
+    And I should see a modal
     And I click ".close"
 
 	Scenario: A user cannot sign up with bad details
@@ -22,7 +22,7 @@ Feature: Allow users to sign up to the app
 
 	#Navigation
 	Scenario: A user can view the sign up screen
-		Then I should see the title "RealTimeCRM - Sign Up"
+		Then I should see the title "Thames Labs - Sign Up"
 
 	Scenario: A normal user is redirected from the sign-up page to dashboard
     Given I am a logged in user

@@ -1,8 +1,7 @@
-import { Companies, Contacts, Projects, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Companies, Contacts, Jobs, Tasks } from '/imports/api/collections.js';
 
 import './task-tick/task-tick.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
-import '/imports/ui/components/opportunities/reports/overview.js';
 
 import './task-item.less';
 import './task-item.html';
@@ -129,33 +128,17 @@ Template.taskItem.helpers({
           }
           break;
 
-        case 'project':
-          handle = Template.instance().subscribe("projectById", taskData.entityId);
+        case 'job':
+          handle = Template.instance().subscribe("jobById", taskData.entityId);
           if (handle && handle.ready()) {
-            const p = Projects.findOne({
+            const p = Jobs.findOne({
               _id: taskData.entityId
             });
             if (p) {
               entityData = {
                 icon: 'sitemap',
                 name: p.name,
-                permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])
-              };
-            }
-          }
-          break;
-
-        case 'opportunity':
-          handle = Template.instance().subscribe("opportunityById", taskData.entityId);
-          if (handle && handle.ready()) {
-            const p = Opportunities.findOne({
-              _id: taskData.entityId
-            });
-            if (p) {
-              entityData = {
-                icon: 'lightbulb-o',
-                name: p.name,
-                permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadOpportunities'])
+                permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadJobs'])
               };
             }
           }

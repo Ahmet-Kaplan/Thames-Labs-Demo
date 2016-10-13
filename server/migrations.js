@@ -1,4 +1,4 @@
-import { Companies, Contacts, CustomFields, Projects, Products, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
+import { Companies, Contacts, CustomFields, Jobs, Products, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
 Migrations.add({
   version: 24,
   name: "Move all custom fields to new collection storage approach",
@@ -95,15 +95,15 @@ Migrations.add({
         // -----------------------------------------
 
         // -----------------------------------------
-        // Tenant projects
+        // Tenant jobs
         // -----------------------------------------
-        var projects = Projects.find({
+        var jobs = Jobs.find({
           _groupId: tenant._id
         }).fetch();
 
-        _.each(projects, function(project) {
-          if (project.extendedInformation) {
-            var sortedArray = project.extendedInformation.sort(function(a, b) {
+        _.each(jobs, function(job) {
+          if (job.extendedInformation) {
+            var sortedArray = job.extendedInformation.sort(function(a, b) {
               if (a.dataOrder < b.dataOrder) return -1;
               if (a.dataOrder > b.dataOrder) return 1;
               return 0;
@@ -117,13 +117,13 @@ Migrations.add({
                   type: ei.dataType || 'text',
                   global: ei.isGlobal,
                   order: i,
-                  target: 'project',
+                  target: 'job',
                   listValues: (ei.dataType === 'picklist' ? ei.listValues : ''),
-                  entityId: project._id
+                  entityId: job._id
                 });
                 if (cfId) {
-                  Projects.update({
-                    _id: project._id
+                  Jobs.update({
+                    _id: job._id
                   }, {
                     $unset: {
                       extendedInformation: ''
@@ -225,7 +225,7 @@ Migrations.add({
             $exists: true
           }
         }).count();
-        var projectCount = Projects.find({
+        var jobCount = Jobs.find({
           sequencedIdentifier: {
             $exists: true
           }
@@ -248,7 +248,7 @@ Migrations.add({
             'settings.company.defaultNumber': companyCount,
             'settings.contact.defaultNumber': contactCount,
             'settings.opportunity.defaultNumber': opportunitiesCount,
-            'settings.project.defaultNumber': projectCount,
+            'settings.job.defaultNumber': jobCount,
             'settings.purchaseorder.defaultNumber': purchaseOrderCount,
             'settings.product.defaultNumber': productCount,
           }

@@ -1,0 +1,24 @@
+<template name="jobType">
+  <div class="jobTypeEntry">
+    <h5>
+      {{name}}
+      <div class="ptButtons pull-right">
+        <a class="btn btn-primary btn-xs" href="#" id="addMilestone">
+          <i class="fa fa-fw fa-plus"></i>
+          Add milestone</a>
+        <a class="btn btn-info btn-xs" href="#" id="editType">
+          Edit</a>
+        <a class="btn btn-danger btn-xs" href="#" id="removeType">
+          Delete</a>
+      </div>
+    </h5>
+
+    <div class="jobTypeMilestones">
+      <ul class="list-group" id="milestone-list-{{id}}">
+        {{#each milestones}}
+          {{> jobMilestone}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>

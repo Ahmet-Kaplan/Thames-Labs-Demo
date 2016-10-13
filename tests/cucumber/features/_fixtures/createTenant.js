@@ -5,7 +5,7 @@ export function createTenant(name) {
       extInfo: {
         company: [],
         contact: [],
-        project: [],
+        job: [],
         product: []
       },
       activity: {
@@ -24,7 +24,7 @@ export function createTenant(name) {
         defaultNumber: 1,
         stages: []
       },
-      project: {
+      job: {
         defaultNumber: 1,
         types: []
       },

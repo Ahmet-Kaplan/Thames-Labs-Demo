@@ -5,7 +5,7 @@ module.exports = function() {
     'contacts': 'contacts',
     'purchase orders': 'purchaseorders',
     'opportunities': 'opportunities',
-    'projects': 'projects',
+    'jobs': 'jobs',
     'products': 'products',
     'event logs': 'eventLog',
     'tasks': 'tasks'

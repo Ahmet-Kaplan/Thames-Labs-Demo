@@ -1,0 +1,109 @@
+<template name="jobDetailsPanel">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <input type="file" id="template-upload-docx" style="height:0; width: 0; margin-left: -9999px">
+      <div class="btn-group pull-right">
+        <!-- {{#afModal class="btn btn-info btn-xs" collection="Jobs" doc=_id operation="update" formId="updateJobForm" omitFields="jobId, companyId"}} Edit job details {{/afModal}} -->
+        {{#if isInRole 'CanEditJobs'}}
+          <div class="btn-group">
+            {{#if hasDownloadSupport}}
+              <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>Download as...</button>
+            {{else}}
+              <button class="btn btn-xs btn-default" data-toggle="tooltip" title="This feature is currently unsupported by your browser." data-placement="bottom"><span class="caret"></span>Download as...</button>
+            {{/if}}
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#" id="template-upload-link-docx">Microsoft Word template (.docx)</a></li>
+              <li class="divider"></li>
+              <li><a href="#" id="proj-template-help">How does this work?</a></li>
+            </ul>
+          </div>
+
+          {{#unless isMobile}}
+          <a class="btn btn-info btn-xs" href="#" id="edit-job">
+            <i class="fa fa-fw fa-pencil"></i>Edit</a>
+          {{/unless}}
+        {{/if}}
+
+        <!-- {{#afModal class="btn btn-danger btn-xs" collection="Jobs" doc=_id operation="remove" formId="removeJobForm"}} Delete job {{/afModal}} -->
+        {{#if isInRole 'CanDeleteJobs'}}
+          <a class="btn btn-danger btn-xs" href="#" id="remove-job">
+            <i class="fa fa-fw fa-times"></i>Delete</a>
+        {{/if}}
+
+      </div>
+      Job details
+    </div>
+    <ul class="list-group">
+      {{#if description}}
+        {{#if isInRole 'CanReadCompanies'}}
+          <li class="list-group-item panel-item-header">
+            <h4>
+              <i class="fa fa-fw fa-align-left"></i>
+              Description</h4>
+            {{description}}
+          </li>
+        {{/if}}
+      {{/if}}
+      {{#if company}}
+        {{#if isInRole 'CanReadCompanies'}}
+          <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='company' id=company._id}}" title="Navigate to company details">
+            <h4>
+              <i class="fa fa-fw fa-building"></i>
+              Company</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            {{company.name}}
+          </a>
+        {{/if}}
+      {{/if}}
+      {{#if contact}}
+        {{#if isInRole 'CanReadContacts'}}
+          <a class="list-group-item panel-item-header" data-placement="bottom" data-toggle="tooltip" href="{{pathFor route='contact' id=contact._id}}" title="Navigate to contact details">
+            <h4>
+              <i class="fa fa-fw fa-user"></i>
+              Contact</h4>
+            <i class="fa fa-fw fa-chevron-right pull-right"></i>
+            {{contact.name}}
+          </a>
+        {{/if}}
+      {{/if}}
+      {{#if managerName}}
+        <li class="list-group-item panel-item-header">
+          <h4>
+            <i class="fa fa-fw fa-user"></i>
+            Account Manager</h4>
+          {{managerName}}
+        </li>
+      {{/if}}
+      {{#if value}}
+        <li class="list-group-item panel-item-header">
+          <h4>
+            <i class="fa fa-fw fa-money"></i>
+            Value</h4>
+          {{decimal value}}
+        </li>
+      {{/if}}
+      {{#if dueDate}}
+        <li class="list-group-item panel-item-header">
+          <h4>
+            <i class="fa fa-fw fa-calendar"></i>
+            Due Date</h4>
+          {{friendlyDueDate}}
+        </li>
+      {{/if}}
+      {{#if staffList}}
+        <li class="list-group-item panel-item-header">
+          <h4>
+            <i class="fa fa-fw fa-users"></i>
+            Staff</h4>
+          {{staffList}}
+        </li>
+      {{/if}}
+      {{#if nextActionDue}}
+        <li class="list-group-item panel-item-header">
+          <h4><i class="fa fa-fw fa-calendar"></i> Next Action Due</h4>
+          {{friendlyDate nextActionDue}} {{#if taskOverDue}}<span class="text-danger"><i class="fa fa-fw fa-exclamation-triangle" data-toggle="tooltip" data-placement="right" title="The next task against this job is now overdue"></i></span>{{/if}}
+        </li>
+      {{/if}}
+    </ul>
+  </div>
+</template>

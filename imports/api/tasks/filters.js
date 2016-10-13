@@ -40,29 +40,16 @@ export const TaskFilters = {
       }
     }
   },
-  opportunity: {
-    display: 'Opportunity:',
-    prop: 'opportunity',
-    collectionName: 'opportunities',
+  job: {
+    display: 'Job:',
+    prop: 'job',
+    collectionName: 'jobs',
     valueField: '__originalId',
     nameField: 'name',
-    subscriptionById: 'opportunityById',
-    displayValue: function(opportunity) {
-      if(opportunity) {
-        return opportunity.name;
-      }
-    }
-  },
-  project: {
-    display: 'Project:',
-    prop: 'project',
-    collectionName: 'projects',
-    valueField: '__originalId',
-    nameField: 'name',
-    subscriptionById: 'projectById',
-    displayValue: function(project) {
-      if(project) {
-        return project.name;
+    subscriptionById: 'jobById',
+    displayValue: function(job) {
+      if(job) {
+        return job.name;
       }
     }
   },

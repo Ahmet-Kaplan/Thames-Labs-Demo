@@ -39,16 +39,6 @@ export const widgetsDefault = {
     name: 'My tasks',
     requiredPermission: "CanReadTasks"
   },
-  'openPo': {
-    id: 'openPo',
-    x: 0,
-    y: 0,
-    w: 1,
-    h: 1,
-    displayed: false,
-    name: 'Requested Purchase Orders',
-    requiredPermission: "CanReadPurchaseOrders"
-  },
   'taskInformation': {
     id: 'taskInformation',
     x: 0,
@@ -58,45 +48,15 @@ export const widgetsDefault = {
     displayed: true,
     name: 'Tasks Overview'
   },
-  'opportunityInformation': {
-    id: 'opportunityInformation',
+  'jobInformation': {
+    id: 'jobInformation',
     x: 0,
     y: 0,
     w: 1,
     h: 1,
     displayed: false,
-    name: 'Opportunities Overview',
-    requiredPermission: "CanReadOpportunities"
-  },
-  'projectInformation': {
-    id: 'projectInformation',
-    x: 0,
-    y: 0,
-    w: 1,
-    h: 1,
-    displayed: false,
-    name: 'Projects Overview',
-    requiredPermission: "CanReadProjects"
-  },
-  'productsInformation': {
-    id: 'productsInformation',
-    x: 0,
-    y: 0,
-    w: 1,
-    h: 1,
-    displayed: false,
-    name: 'Products Overview',
-    requiredPermission: "CanReadProducts"
-  },
-  'poInformation': {
-    id: 'poInformation',
-    x: 0,
-    y: 0,
-    w: 1,
-    h: 1,
-    displayed: false,
-    name: 'Purchase Orders Overview',
-    requiredPermission: "CanReadPurchaseOrders"
+    name: 'Jobs Overview',
+    requiredPermission: "CanReadJobs"
   },
   'companySummary': {
     id: 'companySummary',

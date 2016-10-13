@@ -1,4 +1,4 @@
-import { Activities, Companies, Contacts, PurchaseOrders, Projects, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, Jobs, Tasks } from '/imports/api/collections.js';
 
 export const importActivity = (row, getValueForField, userId) => {
   const result = {};
@@ -23,14 +23,8 @@ export const importActivity = (row, getValueForField, userId) => {
     case 'contact':
       recordType = 'contacts';
       break;
-    case 'opportunity':
-      recordType = 'opportunities';
-      break;
-    case 'project':
-      recordType = 'projects';
-      break;
-    case 'purchaseorder':
-      recordType = 'purchaseorders';
+    case 'job':
+      recordType = 'jobs';
       break;
     case 'task':
       recordType = 'tasks';
@@ -51,23 +45,11 @@ export const importActivity = (row, getValueForField, userId) => {
       });
       if (entity) entityName = `${entity.forename} ${entity.surname}`;
       break;
-    case 'opportunities':
-      entity = Opportunities.findOne({
+    case 'job':
+      entity = Jobs.findOne({
         name: entityName
       });
       if (entity) entityName = entity.name;
-      break;
-    case 'projects':
-      entity = Projects.findOne({
-        name: entityName
-      });
-      if (entity) entityName = entity.name;
-      break;
-    case 'purchaseorders':
-      entity = PurchaseOrders.findOne({
-        description: entityName
-      });
-      if (entity) entityName = entity.description;
       break;
     case 'tasks':
       entity = Tasks.findOne({
@@ -100,9 +82,7 @@ export const importActivity = (row, getValueForField, userId) => {
     primaryEntityDisplayData: entityName,
     companyId: (recordType === "companies" ? entity._id : null),
     contactId: (recordType === "contacts" ? entity._id : null),
-    projectId: (recordType === "projects" ? entity._id : null),
-    purchaseOrderId: (recordType === "purchaseorders" ? entity._id : null),
-    opportunityId: (recordType === "opportunities" ? entity._id : null),
+    jobId: (recordType === "jobs" ? entity._id : null),
     taskId: (recordType === "tasks" ? entity._id : null),
     createdBy: userId,
     createdAt: new Date()

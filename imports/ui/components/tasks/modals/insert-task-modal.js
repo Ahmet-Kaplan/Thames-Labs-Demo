@@ -50,9 +50,9 @@ Template.insertNewTask.helpers({
         Meteor.subscribe('allOpportunities');
         searchIndex = OpportunitiesIndex;
         break;
-      case 'project':
-        Meteor.subscribe('allProjects');
-        searchIndex = ProjectsIndex;
+      case 'job':
+        Meteor.subscribe('allJobs');
+        searchIndex = JobsIndex;
         break;
     }
     return searchIndex;

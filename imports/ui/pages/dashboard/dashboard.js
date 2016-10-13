@@ -4,15 +4,11 @@ import './dashboard.css';
 import '/imports/ui/components/tutorial-modals/welcome/first-mobile.js';
 import '/imports/ui/components/tutorial-modals/welcome/first-run-modal.js';
 import '/imports/ui/components/dashboard/widgets/online/online.js';
-import '/imports/ui/components/dashboard/widgets/openPo/openPo.js';
 import '/imports/ui/components/dashboard/widgets/quotation/quotation.js';
 import '/imports/ui/components/dashboard/widgets/task/task.js';
 import '/imports/ui/components/dashboard/widgets/watched/watchedEntity.js';
 import '/imports/ui/components/dashboard/widgets/reporting/companySummary/companySummary.js';
-import '/imports/ui/components/dashboard/widgets/reporting/productsInformation/productsInformation.js';
-import '/imports/ui/components/dashboard/widgets/reporting/opportunityInformation/opportunityInformation.js';
-import '/imports/ui/components/dashboard/widgets/reporting/projectInformation/projectInformation.js';
-import '/imports/ui/components/dashboard/widgets/reporting/purchaseOrders/poInformation.js';
+import '/imports/ui/components/dashboard/widgets/reporting/jobInformation/jobInformation.js';
 import '/imports/ui/components/dashboard/widgets/reporting/tasks/tasksInformation.js';
 
 import { widgetsDefault, saveMyWidgets, removeWidget, dashboardWidgets } from '/imports/api/widgets/widgets.js';

@@ -1,7 +1,7 @@
 {
   "name": "realtimecrm",
   "version": "1.0.0",
-  "description": "A RealTime CRM from Cambridge Software",
+  "description": "Thames Labs",
   "directories": {
     "test": "tests"
   },
@@ -41,7 +41,7 @@
     "pretest": "npm run lint",
     "watch": "chimp --watch --ddp=http://localhost:3000 --path=tests/cucumber",
     "prewatch": "npm run lint",
-    "deploy": "modulus deploy --project-name realtimecrm --include-modules",
+    "deploy": "modulus deploy --job-name realtimecrm --include-modules",
     "predeploy": "npm prune --production && npm install --production",
     "lint": "eslint --quiet .",
     "precircle": "chmod +x .scripts/start.js",

@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Companies, Contacts, Projects, Products, PurchaseOrders, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Companies, Contacts, Jobs, Products, PurchaseOrders, Opportunities, Tasks } from '/imports/api/collections.js';
 
 Meteor.methods({
   //Tasks
@@ -32,97 +32,25 @@ Meteor.methods({
     if (!this.userId) return Error;
     return Contacts.find().count();
   },
-  //Projects
-  'report.numberOfProjects': function() {
+  //Jobs
+  'report.numberOfJobs': function() {
     if (!this.userId) return Error;
-    return Projects.find().count();
+    return Jobs.find().count();
   },
-  'report.activeProjects': function() {
+  'report.activeJobs': function() {
     if (!this.userId) return Error;
-    return Projects.find({ active: { $eq: true } }).count();
+    return Jobs.find({ active: { $eq: true } }).count();
   },
-  'report.projectValue': function() {
+  'report.jobValue': function() {
     if (!this.userId) return Error;
-    const projectValues = Projects.find({ active: { $eq: true } }, { value: 1 }).fetch();
-    if(projectValues) return _.sumBy(projectValues, (p) => p.value);
+    const jobValues = Jobs.find({ active: { $eq: true } }, { value: 1 }).fetch();
+    if(jobValues) return _.sumBy(jobValues, (p) => p.value);
     return '0';
   },
-  'report.projectsAverage': function() {
+  'report.jobsAverage': function() {
     if (!this.userId) return Error;
-    const projectValues = Projects.find({ active: { $eq: true } }, { value: 1 } ).fetch();
-    if (projectValues) return _.meanBy(projectValues, (p) => p.value);
+    const jobValues = Jobs.find({ active: { $eq: true } }, { value: 1 } ).fetch();
+    if (jobValues) return _.meanBy(jobValues, (p) => p.value);
     return '0.00';
   },
-  //Opportunities
-  'report.openOpportunities': function() {
-    if (!this.userId) return Error;
-    return Opportunities.find({ isArchived: { $ne: true } }).count();
-  },
-  'report.archivedOpportunities': function() {
-    if (!this.userId) return Error;
-    return Opportunities.find({ isArchived: { $eq: true } }).count();
-  },
-  'report.wonOpportunities': function() {
-    if (!this.userId) return Error;
-    return Opportunities.find({ hasBeenWon: { $eq: true } }).count();
-  },
-  'report.lostOpportunities': function() {
-    if (!this.userId) return Error;
-    return Opportunities.find({ isArchived: { $eq: true }, hasBeenWon: { $ne: true } }).count();
-  },
-  'report.valueOfOpportunities': function() {
-    if (!this.userId) return Error;
-    const oppValues = Opportunities.find({ isArchived: { $ne: true } }, { value: 1 }).fetch();
-    return _.sumBy(oppValues, (o) => o.value);
-  },
-  'report.averageOpportunityValue': function() {
-    if (!this.userId) return Error;
-    const oppValues = Opportunities.find({ isArchived: { $ne: true } }, { value: 1 }).fetch();
-    return _.meanBy(oppValues, (o) => o.value);
-  },
-  //Products
-  'report.numberOfProducts': function() {
-    if (!this.userId) return Error;
-    return Products.find().count();
-  },
-  'report.costOfProducts': function() {
-    if (!this.userId) return Error;
-    const productCosts = Products.find({}, { cost: 1 }).fetch();
-    return _.sumBy(productCosts, (p) => p.cost);
-  },
-  'report.averageProductsCost': function() {
-    if (!this.userId) return Error;
-    const productCosts = Products.find({}, { cost: 1 }).fetch();
-    return _.meanBy(productCosts, (p) => p.cost);
-  },
-  'report.averageProductsPrice': function() {
-    if (!this.userId) return Error;
-    const productCosts = Products.find({}, { price: 1 }).fetch();
-    return _.meanBy(productCosts, (p) => p.price);
-  },
-  //Purchase Orders
-  'report.numberOfPurchaseOrders': function() {
-    if (!this.userId) return Error;
-    return PurchaseOrders.find().count();
-  },
-  'report.ApprovedPo': function() {
-    if (!this.userId) return Error;
-    return PurchaseOrders.find({ status: { $eq: "Approved" } }).count();
-  },
-  'report.ArrivedPo': function() {
-    if (!this.userId) return Error;
-    return PurchaseOrders.find({ status: { $eq: "Arrived" } }).count();
-  },
-  'report.ClosedPo': function() {
-    if (!this.userId) return Error;
-    return PurchaseOrders.find({ status: { $eq: "Closed" } }).count();
-  },
-  'report.CancelledPo': function() {
-    if (!this.userId) return Error;
-    return PurchaseOrders.find({ status: { $eq: "Cancelled" } }).count();
-  },
-  'report.RejectedPo': function() {
-    if (!this.userId) return Error;
-    return PurchaseOrders.find({ status: { $eq: "Rejected" } }).count();
-  }
 });

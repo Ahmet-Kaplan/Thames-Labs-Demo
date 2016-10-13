@@ -1,0 +1,14 @@
+<template name="jobInformationWidget">
+  <div class="grid-stack-item-content panel panel-default" id='jobInformationBox'>
+    <div class="panel-heading">
+      <i class="fa fa-fw fa-sitemap"></i>
+      <button aria-hidden="true" class="close" id="close_jobInformationWidget" type="button">×</button>
+       Jobs Overview
+    </div>
+    <div class="panel-body">
+      <div class="jobInformationList">
+        {{> jobsOverview}}
+      </div>
+    </div>
+  </div>
+</template>

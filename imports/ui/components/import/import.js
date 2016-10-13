@@ -54,7 +54,7 @@ Template.importPage.helpers({
   },
   hasCustomFields: function() {
     const t = Template.instance().entityType.get();
-    if (t == "companies" || t == "contacts" || t == "products" || t == "projects") return true;
+    if (t == "companies" || t == "contacts" || t == "products" || t == "jobs") return true;
   },
   companies: function() {
     if (FlowRouter.getQueryParam("entity") == "companies") return true;
@@ -65,8 +65,8 @@ Template.importPage.helpers({
   opportunities: function() {
     if (FlowRouter.getQueryParam("entity") == "opportunities") return true;
   },
-  projects: function() {
-    if (FlowRouter.getQueryParam("entity") == "projects") return true;
+  jobs: function() {
+    if (FlowRouter.getQueryParam("entity") == "jobs") return true;
   },
   products: function() {
     if (FlowRouter.getQueryParam("entity") == "products") return true;

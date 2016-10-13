@@ -1,10 +1,10 @@
 App.accessRule('https://*');
 
 App.info({
-  name: 'RealTimeCRM',
+  name: 'Thames Labs',
   description: 'The ultimate business tool',
   version: '0.0.1',
-  id: 'uk.co.cambridgesoftware.realtimecrm',
+  id: 'uk.co.cambridgesoftware.thameslabs',
   author: 'Cambridge Software',
   email: 'solutions@cambridgesoftware.co.uk',
   website: 'http://app.realtimecrm.co.uk/'

@@ -14,8 +14,8 @@ export const getFullImportSchema = (entityType, callback) => {
     case 'contacts':
       entityTypeSingular = 'contact';
       break;
-    case 'projects':
-      entityTypeSingular = 'project';
+    case 'jobs':
+      entityTypeSingular = 'job';
       break;
     case 'products':
       entityTypeSingular = 'product';

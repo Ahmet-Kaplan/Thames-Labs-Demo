@@ -17,7 +17,7 @@ isProTenant = function(tenantId) {
 
 getDisallowedPermissions = function(userId) {
   const collectionsToFilter = [];
-  const perms = ['companies', 'contacts', 'opportunities', 'projects', 'tasks', 'purchaseorders'];
+  const perms = ['companies', 'contacts', 'opportunities', 'jobs', 'tasks', 'purchaseorders'];
 
   _.each(perms, function(p) {
     const perm = permissionGenerator('read', p);
@@ -41,7 +41,7 @@ tenancyDefaultSettings = {
   extInfo: {
     company: [],
     contact: [],
-    project: [],
+    job: [],
     product: []
   },
   activity: {
@@ -80,18 +80,18 @@ tenancyDefaultSettings = {
       id: 4
     }]
   },
-  project: {
+  job: {
     defaultNumber: 1,
     types: [{
       id: 0,
-      name: "Standard Project",
+      name: "Standard Job",
       milestones: [{
         name: "Inception",
-        description: "This is a newly-created project",
+        description: "This is a newly-created job",
         id: 0
       }, {
         name: "Completion",
-        description: "This project has been completed",
+        description: "This job has been completed",
         id: 1
       }]
     }]
@@ -120,9 +120,9 @@ permissions = [{
   collectionName: 'contacts',
   value: 'Contacts'
 }, {
-  displayName: 'Projects',
-  collectionName: 'projects',
-  value: 'Projects'
+  displayName: 'Jobs',
+  collectionName: 'jobs',
+  value: 'Jobs'
 }, {
   displayName: 'Products',
   collectionName: 'products',
@@ -162,10 +162,10 @@ defaultPermissionsList = [
   "CanCreateContacts",
   "CanEditContacts",
   "CanDeleteContacts",
-  "CanReadProjects",
-  "CanCreateProjects",
-  "CanEditProjects",
-  "CanDeleteProjects",
+  "CanReadJobs",
+  "CanCreateJobs",
+  "CanEditJobs",
+  "CanDeleteJobs",
   "CanReadProducts",
   "CanCreateProducts",
   "CanEditProducts",

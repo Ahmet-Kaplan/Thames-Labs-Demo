@@ -37,7 +37,7 @@ export const ContactFilters = {
     nameField: 'name'
   },
   sequencedIdentifier: {
-    display: 'RealTime Contact Identifier:',
+    display: 'Contact Identifier:',
     prop: 'sequencedIdentifier',
     allowMultiple: false,
     verify: function(sequencedIdentifier) {

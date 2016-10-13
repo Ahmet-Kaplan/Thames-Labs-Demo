@@ -1,0 +1,56 @@
+<template name="jobsOverview">
+  {{#unless dashboard}}
+  <li>
+    <a id="ref_jobOverviewWidget" data-toggle="popover" title="Jobs Overview" data-content="
+            <div id='jobOverviewPop'>
+                <table class='table table-no-border'>
+                <tbody>
+                    <tr>
+                    <td>Jobs:</td>
+                    <td class='text-right'>{{totalJobs}}</td>
+                    </tr>
+                    <tr>
+                    <td>Active Jobs:</td>
+                    <td class='text-right'>{{activeJobs}}</td>
+                    </tr>
+                    <tr>
+                    <td>Active Jobs Total Value:</td>
+                    <td class='text-right'>{{decimal jobTotal}}</td>
+                    </tr>
+                    <tr>
+                    <td>Active Jobs Average Value:</td>
+                    <td class='text-right'>{{decimal jobsAverage}}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+    ">Overview</a>
+  </li>
+
+  {{else}}
+
+  <div id='jobOverviewPop'>
+    <table class='table table-no-border'>
+      <tbody>
+        <tr>
+          <td>Jobs:</td>
+          <td class='text-right'>{{totalJobs}}</td>
+        </tr>
+        <tr>
+          <td>Active Jobs:</td>
+          <td class='text-right'>{{activeJobs}}</td>
+        </tr>
+        <tr>
+          <td>Active Jobs Total Value:</td>
+          <td class='text-right'>{{decimal jobTotal}}</td>
+        </tr>
+        <tr>
+          <td>Active Jobs Average Value:</td>
+          <td class='text-right'>{{decimal jobsAverage}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  {{/unless}}
+</template>

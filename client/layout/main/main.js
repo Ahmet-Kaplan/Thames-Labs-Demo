@@ -1,4 +1,3 @@
-import { loadTawkTo, updateTawkToVisitor } from '/imports/api/tawk-to/tawk-to.js';
 import { Tenants } from '/imports/api/collections.js';
 import '/imports/ui/components/loading/loading.js';
 import '/imports/ui/components/login/login.js';
@@ -10,14 +9,12 @@ Template.appLayout.onCreated(function() {
 Template.appLayout.onRendered(function() {
   this.autorun(function() {
     Meteor.user();
-    loadTawkTo();
   });
   this.autorun(function() {
     const visitor = Meteor.user();
     const tenant = !!visitor ? Tenants.findOne({
       _id: visitor.group
     }) : null;
-    updateTawkToVisitor(visitor, tenant);
   });
 
   $.getScript('/vendor/bowser.min.js');

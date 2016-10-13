@@ -33,10 +33,10 @@ module.exports = function() {
         Meteor.call('addOpportunityActivity', done);
       });
   });
-  this.Given(/^the project has an activity$/, function() {
+  this.Given(/^the job has an activity$/, function() {
     browser
       .executeAsync(function(done) {
-        Meteor.call('addProjectActivity', done);
+        Meteor.call('addJobActivity', done);
       });
   });
   this.Given(/^the purchase order has an activity$/, function() {

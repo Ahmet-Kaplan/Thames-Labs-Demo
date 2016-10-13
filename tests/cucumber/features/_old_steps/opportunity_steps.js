@@ -11,8 +11,8 @@ module.exports = function() {
     browser.getText('h3*=lost');
   });
 
-  this.Then(/^I should see that an project has been created from the opportunity$/, function() {
-    browser.waitForExist('.panel*=Project', 2000);
+  this.Then(/^I should see that an job has been created from the opportunity$/, function() {
+    browser.waitForExist('.panel*=Job', 2000);
     browser.waitForExist('a*=opportunity', 2000);
     browser.getText('a*=opportunity');
   });

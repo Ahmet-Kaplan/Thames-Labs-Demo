@@ -43,7 +43,7 @@ export const UserSchema = new SimpleSchema({
   }
 });
 UserSchema.messages({
-  emailTaken: "This email address is already registered with RealTimeCRM"
+  emailTaken: "This email address is already registered with Thames Labs"
 });
 
 export const UserSignUpSchema = new SimpleSchema({
@@ -89,5 +89,5 @@ export const UserSignUpSchema = new SimpleSchema({
   }
 });
 UserSignUpSchema.messages({
-  emailTaken: "This email address is already registered with RealTimeCRM"
+  emailTaken: "This email address is already registered with Thames Labs"
 });

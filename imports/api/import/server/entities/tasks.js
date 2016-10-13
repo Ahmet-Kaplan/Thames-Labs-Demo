@@ -27,11 +27,8 @@ export const importTask = (row, getValueForField, userId, rtId) => {
       case 'company':
         collectionName = 'companies';
         break;
-      case 'opportunity':
-        collectionName = 'opportunities';
-        break;
-      case 'project':
-        collectionName = 'projects';
+      case 'job':
+        collectionName = 'jobs';
         break;
     }
     entity = Collections[collectionName].findOne({

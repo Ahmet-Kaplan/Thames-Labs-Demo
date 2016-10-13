@@ -15,7 +15,7 @@ export const TipList = [{
 }, {
   "Tip": "Need a better view of your upcoming tasks? Switch to Calendar View by clicking <i class='fa fa-fw fa-calendar'></i> on the Tasks list view."
 }, {
-  "Tip": "Create a project from anywhere by pressing CTRL + ALT + J, or via the fast-action button when on mobile (the <i class='fa fa-fw fa-plus'></i> icon in the lower-right corner)"
+  "Tip": "Create a job from anywhere by pressing CTRL + ALT + J, or via the fast-action button when on mobile (the <i class='fa fa-fw fa-plus'></i> icon in the lower-right corner)"
 }, {
   "Tip": "You can re-arrange your dashboard widgets by left-clicking and dragging the header bar of the widget you wish to move."
 }, {

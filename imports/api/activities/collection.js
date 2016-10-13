@@ -1,5 +1,5 @@
 import { getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
-import { Companies, Contacts, Projects, PurchaseOrders, Tasks } from '/imports/api/collections.js';
+import { Companies, Contacts, Jobs, Tasks } from '/imports/api/collections.js';
 import { ActivitySchema } from './schema.js';
 import { ActivityFilters } from './filters.js';
 
@@ -16,11 +16,8 @@ Activities.helpers({
   contact: function() {
     return Contacts.findOne(this.contactId);
   },
-  project: function() {
-    return Projects.findOne(this.projectId);
-  },
-  purchaseOrder: function() {
-    return PurchaseOrders.findOne(this.purchaseOrderId);
+  job: function() {
+    return Jobs.findOne(this.jobId);
   },
   task: function() {
     return Tasks.findOne(this.taskId);
@@ -65,9 +62,7 @@ Activities.index = new EasySearch.Index({
         'createdAt': 1,
         'companyId': 1,
         'contactId': 1,
-        'projectId': 1,
-        'purchaseOrderId': 1,
-        'opportunityId': 1,
+        'jobId': 1,
         'taskId': 1,
         'primaryEntityType': 1,
         'primaryEntityDisplayData': 1,
@@ -174,17 +169,9 @@ Activities.after.insert(function(userId, doc) {
     entityType = "contact";
     entityId = doc.contactId;
   }
-  if (doc.opportunityId) {
-    entityType = "opportunity";
-    entityId = doc.opportunityId;
-  }
-  if (doc.projectId) {
-    entityType = "project";
-    entityId = doc.projectId;
-  }
-  if (doc.purchaseOrderId) {
-    entityType = "purchaseOrder";
-    entityId = doc.purchaseOrderId;
+  if (doc.jobId) {
+    entityType = "job";
+    entityId = doc.jobId;
   }
   if (doc.taskId) {
     entityType = "task";
@@ -212,17 +199,9 @@ Activities.after.update(function(userId, doc, fieldNames, modifier, options) {
     entityType = "contact";
     entityId = doc.contactId;
   }
-  if (doc.opportunityId) {
-    entityType = "opportunity";
-    entityId = doc.opportunityId;
-  }
-  if (doc.projectId) {
-    entityType = "project";
-    entityId = doc.projectId;
-  }
-  if (doc.purchaseOrderId) {
-    entityType = "purchaseOrder";
-    entityId = doc.purchaseOrderId;
+  if (doc.jobId) {
+    entityType = "job";
+    entityId = doc.jobId;
   }
   if (doc.taskId) {
     entityType = "task";
@@ -264,17 +243,9 @@ Activities.after.remove(function(userId, doc) {
     entityType = "contact";
     entityId = doc.contactId;
   }
-  if (doc.opportunityId) {
-    entityType = "opportunity";
-    entityId = doc.opportunityId;
-  }
-  if (doc.projectId) {
-    entityType = "project";
-    entityId = doc.projectId;
-  }
-  if (doc.purchaseOrderId) {
-    entityType = "purchaseOrder";
-    entityId = doc.purchaseOrderId;
+  if (doc.jobId) {
+    entityType = "job";
+    entityId = doc.jobId;
   }
   if (doc.taskId) {
     entityType = "task";

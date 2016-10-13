@@ -15,7 +15,7 @@ Template.dataDump.events({
         var blob = zip.generate({
           type: "blob"
         });
-        saveAs(blob, "RealTimeCRM Data Extract " + moment().format('DD-MM-YYYY') + ".zip");
+        saveAs(blob, "Thames Labs Data Extract " + moment().format('DD-MM-YYYY') + ".zip");
       }
     });
   }

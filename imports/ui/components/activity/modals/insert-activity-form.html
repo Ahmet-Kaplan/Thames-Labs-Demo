@@ -76,7 +76,7 @@
   </div>
 </template>
 
-<template name="insertProjectActivityModal">
+<template name="insertJobActivityModal">
   <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -88,7 +88,7 @@
         </div>
 
         <div class="modal-body">
-          {{#autoForm collection="Activities" id="insertProjectActivityForm" type="insert"}}
+          {{#autoForm collection="Activities" id="insertJobActivityForm" type="insert"}}
             {{> afQuickField name="type" options="allowed"}}
             {{> afQuickField name="activityTimestamp" id="activityTimestamp" type="bootstrap-datetimepicker"}}
             {{#if IsIEAnd10OrGreater}}
@@ -98,12 +98,12 @@
             {{/if}}
             {{> afQuickField name="createdAt" type="hidden" value=currentDateTime}}
 
-            {{> afQuickField name="companyId" type="hidden" value=project.companyId}}
-            {{> afQuickField name="contactId" type="hidden" value=project.contactId}}
-            {{> afQuickField name="projectId" type="hidden" value=project._id}}
-            {{> afQuickField name="primaryEntityType" type="hidden" value='projects'}}
-            {{> afQuickField name="primaryEntityId" type="hidden" value=project._id}}
-            {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=project.name}}
+            {{> afQuickField name="companyId" type="hidden" value=job.companyId}}
+            {{> afQuickField name="contactId" type="hidden" value=job.contactId}}
+            {{> afQuickField name="jobId" type="hidden" value=job._id}}
+            {{> afQuickField name="primaryEntityType" type="hidden" value='jobs'}}
+            {{> afQuickField name="primaryEntityId" type="hidden" value=job._id}}
+            {{> afQuickField name="primaryEntityDisplayData" type="hidden" value=job.name}}
             {{> afQuickField name="createdBy" value=currentUser }}
 
             {{> insertTaskHelper}}
@@ -222,8 +222,8 @@
             {{#if equals currentEntity 'contacts'}}
               {{> afQuickField name="contactId" type="hidden" value=currentEntityId}}
             {{/if}}
-            {{#if equals currentEntity 'projects'}}
-              {{> afQuickField name="projectId" type="hidden" value=currentEntityId}}
+            {{#if equals currentEntity 'jobs'}}
+              {{> afQuickField name="jobId" type="hidden" value=currentEntityId}}
             {{/if}}
             {{#if equals currentEntity 'purchaseorders'}}
               {{> afQuickField name="purchaseOrderId" type="hidden" value=currentEntityId}}

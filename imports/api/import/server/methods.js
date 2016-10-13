@@ -3,10 +3,7 @@ import _ from 'lodash';
 import { importActivity } from './entities/activities.js';
 import { importCompany } from './entities/companies.js';
 import { importContact } from './entities/contacts.js';
-import { importOpportunity } from './entities/opportunities.js';
-import { importProduct } from './entities/products.js';
-import { importProject } from './entities/projects.js';
-import { importPurchaseOrder } from './entities/purchase-orders.js';
+import { importJob } from './entities/jobs.js';
 import { importTask } from './entities/tasks.js';
 
 import { Tenants } from '/imports/api/collections.js';
@@ -57,21 +54,9 @@ export const importRows = (dataRows, entityType, fieldMap, userId) => {
         importFunction = importContact;
         rtId = tenant.settings.contact.defaultNumber;
         break;
-      case "opportunities":
-        importFunction = importOpportunity;
-        rtId = tenant.settings.opportunity.defaultNumber;
-        break;
-      case "products":
-        importFunction = importProduct;
-        rtId = tenant.settings.product.defaultNumber;
-        break;
-      case "projects":
-        importFunction = importProject;
-        rtId = tenant.settings.project.defaultNumber;
-        break;
-      case "purchaseorders":
-        importFunction = importPurchaseOrder;
-        rtId = tenant.settings.purchaseorder.defaultNumber;
+      case "jobs":
+        importFunction = importJob;
+        rtId = tenant.settings.job.defaultNumber;
         break;
       case "tasks":
         importFunction = importTask;

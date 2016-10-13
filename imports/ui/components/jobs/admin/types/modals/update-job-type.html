@@ -1,0 +1,24 @@
+<template name="updateJobType">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>Update job type</h4>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="form-group" id="type-name-input">
+              <label for="job-type-name">Name</label>
+              <input class="form-control" id="job-type-name" placeholder="Name of job type" type="text" autofocus>
+            </div>
+            <button class="btn btn-primary" id="update-job-type" role="button">Update</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

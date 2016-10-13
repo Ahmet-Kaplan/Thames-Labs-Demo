@@ -29,7 +29,7 @@ Template.exportCollection.events({
       }
 
       const filename = [
-        'RealTimeCRM-',
+        'ThamesLabs-',
         collectionName,
         '-',
         moment().format("DD/MM/YYYY"),

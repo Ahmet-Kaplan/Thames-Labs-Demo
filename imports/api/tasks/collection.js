@@ -1,4 +1,4 @@
-import { Activities, Projects, Opportunities } from '/imports/api/collections.js';
+import { Activities, Jobs } from '/imports/api/collections.js';
 import { getWordedTime, getEuropeanDate } from '/imports/api/collections-helpers/time-filters.js';
 
 import { TaskSchema } from './schema.js';
@@ -99,10 +99,10 @@ Tasks.index = TasksIndex = new EasySearch.Index({
         };
       }
 
-      if(options.search.props.project) {
+      if(options.search.props.job) {
         // n.b. the array is passed as a comma separated string
         selector.entityId = {
-          $in: options.search.props.project.split(',')
+          $in: options.search.props.job.split(',')
         };
       }
 
@@ -209,7 +209,7 @@ Tasks.after.insert(function(userId, doc) {
     LogClientEvent(LogLevel.Info, `${user.profile.name} created a new task`, 'task', doc._id);
   }
 
-  if(doc.entityType === "opportunity" && doc.dueDate) {
+  if(doc.entityType === "job" && doc.dueDate) {
     const nextTask = Tasks.find({
       entityId: doc.entityId,
       completed: {
@@ -223,25 +223,7 @@ Tasks.after.insert(function(userId, doc) {
     }).fetch()[0];
 
     if (Meteor.isServer) {
-      Opportunities.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
-    }
-  }
-
-  if(doc.entityType === "project" && doc.dueDate) {
-    const nextTask = Tasks.find({
-      entityId: doc.entityId,
-      completed: {
-        $ne: true
-      }
-    }, {
-      sort: {
-        dueDate: 1,
-      },
-      limit: 1
-    }).fetch()[0];
-
-    if (Meteor.isServer) {
-      Projects.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
+      Jobs.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
     }
   }
 });
@@ -274,7 +256,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
     }
   }
 
-  if(doc.entityType === "opportunity" && doc.dueDate) {
+  if(doc.entityType === "job" && doc.dueDate) {
     const nextTask = Tasks.find({
       entityId: doc.entityId,
       completed: {
@@ -288,25 +270,7 @@ Tasks.after.update(function(userId, doc, fieldNames, modifier, options) {
     }).fetch()[0];
 
     if (Meteor.isServer) {
-      Opportunities.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
-    }
-  }
-
-  if(doc.entityType === "project" && doc.dueDate) {
-    const nextTask = Tasks.find({
-      entityId: doc.entityId,
-      completed: {
-        $ne: true
-      }
-    }, {
-      sort: {
-        dueDate: 1,
-      },
-      limit: 1
-    }).fetch()[0];
-
-    if (Meteor.isServer) {
-      Projects.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
+      Jobs.update({_id: doc.entityId}, {$set: {nextActionDue: nextTask.dueDate}});
     }
   }
 });

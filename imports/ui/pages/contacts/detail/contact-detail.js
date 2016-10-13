@@ -5,15 +5,13 @@ import '/imports/ui/components/contacts/widgets/public-contact-information.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/fab/fab-edit.js';
 import '/imports/ui/components/maps/viewer/map-viewer.js';
-import '/imports/ui/components/opportunities/modals/insert/insert-contact-opp-modal.js';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
-import '/imports/ui/components/purchase-orders/modals/insert/insert-contact-purchase-order.js';
 import '/imports/ui/components/tasks/panel/task-panel.js';
-import '/imports/ui/components/projects/modals/insert-contact-project-modal.js';
+import '/imports/ui/components/jobs/modals/insert-contact-job-modal.js';
 import '/imports/ui/components/jumplist/jumplist.js';
 import '/imports/ui/components/watchlist/watchlist.js';
 
-import { Activities, Companies, Contacts, Projects, PurchaseOrders, Opportunities, Tenants } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, Jobs, Tenants } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
@@ -44,9 +42,8 @@ Template.contactDetail.onCreated(function() {
   const contactId = FlowRouter.getParam('id');
   this.subscribe('activityByContactId', contactId);
   this.subscribe('tasksByEntityId', contactId);
-  this.subscribe('projectsByContactId', contactId);
+  this.subscribe('jobsByContactId', contactId);
   this.subscribe('purchaseOrdersByContactId', contactId);
-  this.subscribe('opportunitiesByContactId', contactId);
 });
 
 Template.contactDetail.helpers({
@@ -83,9 +80,9 @@ Template.contactDetail.helpers({
   phoneHref: function(number) {
     return 'tel:' + number;
   },
-  projects: function() {
+  jobs: function() {
     const contactId = FlowRouter.getParam('id');
-    return Projects.find({
+    return Jobs.find({
       contactId: contactId,
       active: true
     }, {
@@ -115,32 +112,8 @@ Template.contactDetail.helpers({
     }
     return this;
   },
-  opportunities: function() {
-    return Opportunities.find({
-      contactId: this._id,
-      isArchived: { $ne: true }
-    });
-  },
-  purchaseOrders: function() {
-    return PurchaseOrders.find({
-      supplierContactId: this._id
-    });
-  },
-  wonOpps: function() {
-    return Opportunities.find({
-      contactId: this._id,
-      hasBeenWon: true
-    }).count();
-  },
-  lostOpps: function() {
-    return Opportunities.find({
-      contactId: this._id,
-      isArchived: true,
-      hasBeenWon: false
-    }).count();
-  },
-  inactiveProjects: function() {
-    return Projects.find({
+  inactiveJobs: function() {
+    return Jobs.find({
       contactId: this._id,
       active: false
     }).count();
@@ -152,15 +125,10 @@ Template.contactDetail.helpers({
       icon: 'fa-file-text-o',
       permission: 'CanReadContacts'
     }, {
-      text: 'Current projects',
-      anchor: 'projects',
+      text: 'Current jobs',
+      anchor: 'jobs',
       icon: 'fa-sitemap',
-      permission: 'CanReadProjects'
-    }, {
-      text: 'Purchase Orders',
-      anchor: 'purchase-orders',
-      icon: 'fa-shopping-cart',
-      permission: 'CanReadPurchaseOrders'
+      permission: 'CanReadJobs'
     }, {
       text: 'Tasks',
       anchor: 'tasks',
@@ -171,11 +139,6 @@ Template.contactDetail.helpers({
       anchor: 'entity-custom-fields',
       icon: 'fa-bookmark',
       permission: 'CanEditContacts'
-    }, {
-      text: 'Opportunities',
-      anchor: 'opportunities',
-      icon: 'fa-lightbulb-o',
-      permission: 'CanReadOpportunities'
     }, {
       text: 'Activity Timeline',
       anchor: 'activity-timeline',
@@ -210,9 +173,9 @@ Template.contactDetail.events({
       contact: this
     });
   },
-  'click #add-project': function(event) {
+  'click #add-job': function(event) {
     event.preventDefault();
-    Modal.show('insertContactProjectModal', {
+    Modal.show('insertContactJobModal', {
       contactId: this._id,
       companyId: this.companyId
     });
@@ -246,20 +209,6 @@ Template.contactDetail.events({
       }
     });
   },
-  'click #add-opportunity': function(event) {
-    event.preventDefault();
-    const company = this.company();
-    if (typeof company === "undefined") {
-      Modal.show('insertContactOpportunityModal', {
-        contactId: this._id
-      });
-    } else {
-      Modal.show('insertContactOpportunityModal', {
-        companyId: company._id,
-        contactId: this._id
-      });
-    }
-  },
   'click .contact-telephone': function(event, template) {
     const data = this;
     bootbox.dialog({
@@ -290,26 +239,17 @@ Template.contactDetail.events({
       }
     });
   },
-  'click #inactive-projects': function(event, template) {
+  'click #inactive-jobs': function(event, template) {
     const url = "?f%5Bcontact%5D=" + this._id + "&f%5Bactive%5D=No";
-    FlowRouter.go("/projects" + url);
+    FlowRouter.go("/jobs" + url);
   },
-  'click #won-opps': function(event, template) {
-    const url = "?f%5Bcontact%5D=" + this._id + "&f%5Bstate%5D=Won";
-    FlowRouter.go("/opportunities" + url);
-  },
-  'click #lost-opps': function(event, template) {
-    const url = "?f%5Bcontact%5D=" + this._id + "&f%5Bstate%5D=Lost";
-    FlowRouter.go("/opportunities" + url);
-  }
-
 });
 
-Template.ContactProjectListItem.helpers({
-  companyProject: function() {
+Template.ContactJobListItem.helpers({
+  companyJob: function() {
     return !!this.companyId;
   },
-  projectCompanyName: function() {
+  jobCompanyName: function() {
     Template.instance().subscribe('companyById', this.companyId);
     const company = Companies.findOne(this.companyId);
     return company ? company.name : null;

@@ -8,7 +8,7 @@ const tour = new Tour({
     {
       element: "#general-dropdown",
       title: "Import data",
-      content: "This interactive tutorial will take you through the steps for importing your data into RealTimeCRM. <br><br> Click the menu button to start.",
+      content: "This interactive tutorial will take you through the steps for importing your data into Thames Labs. <br><br> Click the menu button to start.",
       reflex: true,
       backdropContainer: ".navbar-nav.navbar-right",
       placement: "left",
@@ -27,7 +27,7 @@ const tour = new Tour({
     {
       element: "#settings",
       title: "Import data",
-      content: "Click 'Settings' to navigate to the RealTimeCRM configuration pages.",
+      content: "Click 'Settings' to navigate to the Thames Labs configuration pages.",
       delay: 200,
       reflex: true,
       backdropContainer: "#user-dropdown .dropdown-menu",

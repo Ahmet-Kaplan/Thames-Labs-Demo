@@ -24,10 +24,10 @@ Template.globalCustomFieldsAdmin.helpers({
       target: 'contact'
     }).fetch().length > 0;
   },
-  hasProjectFields: function() {
+  hasJobFields: function() {
     return CustomFields.find({
       global: true,
-      target: 'project'
+      target: 'job'
     }).fetch().length > 0;
   },
   hasProductFields: function() {

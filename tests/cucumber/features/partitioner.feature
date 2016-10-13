@@ -36,12 +36,12 @@ Feature: Stop users from seeing data from other tenants
     And I visit Products
     Then I should not see a product in the list
 
-  Scenario: A user should not be able to see projects created by a user under another tenant
+  Scenario: A user should not be able to see jobs created by a user under another tenant
     Given the second tenant has a Company
-    And the second tenant has a Project
-    And I have the "CanReadProjects" permission
-    And I visit Projects
-    Then I should not see a project in the list
+    And the second tenant has a Job
+    And I have the "CanReadJobs" permission
+    And I visit Jobs
+    Then I should not see a job in the list
 
   Scenario: A user should not be able to see purchase orders created by a user under another tenant
     Given the second tenant has a PurchaseOrder

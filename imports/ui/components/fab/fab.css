@@ -7,12 +7,12 @@
   height: 50px;
   padding-top: 15px;
   border-radius: 50%;
-  background: #0e5e98;
+  background: #5d3080;
   border: none;
   box-shadow: 2px 2px 7px #888;
 }
 .fab.add {
-  background: #0e5e98;
+  background: #5d3080;
 }
 .fab.edit {
   background: #00acc1;

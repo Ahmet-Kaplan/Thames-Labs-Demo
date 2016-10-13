@@ -17,10 +17,7 @@ describe("exporting records", function() {
 
     sandbox.stub(Tenants, 'findOne').returns({
       settings: {
-        opportunity: {
-          stages: [{ id: 0, title: "Investigate subspace transmissions"}]
-        },
-        project: {
+        job: {
           types: [{ id: 0, name: "Build starship", milestones: [{ id: 0, name: "Construct warp drive"}]}]
         }
       }
@@ -54,9 +51,7 @@ describe("exporting records", function() {
       primaryEntityDisplayData: 'Starfleet Headquarters',
       companyId: 'WcxPgRmBGZxFeXqAD',
       contactId: null,
-      projectId: null,
-      purchaseOrderId: null,
-      opportunityId: null,
+      jobId: null,
       taskId: null,
       createdBy: 'z42CCZ69d9SSmFczq'
     };
@@ -215,7 +210,7 @@ describe("exporting records", function() {
     assert.deepEqual(actualResult, expectedResult);
   });
 
-  it("returns the correct row for an project record", function() {
+  it("returns the correct row for an job record", function() {
 
     const record = { _id: 'cry35QNYLwA4Cf2QJ',
       name: 'Test',
@@ -226,18 +221,18 @@ describe("exporting records", function() {
       value: 213,
       staff: [ 'wqmRLP4RAbpD34iAL' ],
       createdBy: 'z42CCZ69d9SSmFczq',
-      projectTypeId: 0,
+      jobTypeId: 0,
       sequencedIdentifier: 2,
       active: true,
-      projectMilestoneId: 0,
+      jobMilestoneId: 0,
       createdAt: new Date("November 11, 2011 11:11:11")
     };
 
-    const actualResult = getRowForExport(record, 'projects');
+    const actualResult = getRowForExport(record, 'jobs');
 
     const expectedResult = { name: 'Test',
       description: 'sdff',
-      projectType: 'Build starship',
+      jobType: 'Build starship',
       milestone: 'Construct warp drive',
       value: 213,
       dueDate: '',

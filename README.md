@@ -85,5 +85,5 @@ Upload using Android Development Console.
 
 ### IOS
 
-Open the output project in Xcode
+Open the output job in Xcode
 Follow Apple's instructions: https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/SubmittingYourApp/SubmittingYourApp.html

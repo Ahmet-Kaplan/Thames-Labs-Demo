@@ -17,8 +17,8 @@ Template.updateCustomField.onRendered(function() {
     case 'contact':
       Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'contacts');
       break;
-    case 'project':
-      Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'projects');
+    case 'job':
+      Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'jobs');
       break;
     case 'product':
       Meteor.subscribe('customFieldsByEntityId', entityId, collType, 'products');

@@ -2,7 +2,7 @@ import { chai } from 'meteor/practicalmeteor:chai';
 import sinon from 'sinon';
 import { Meteor } from 'meteor/meteor';
 import { importRows } from './methods.js';
-import { Companies, Contacts, Opportunities, Products, Projects, PurchaseOrders, Tenants } from '/imports/api/collections.js';
+import { Companies, Contacts, Opportunities, Products, Jobs, PurchaseOrders, Tenants } from '/imports/api/collections.js';
 import { UserSession } from 'meteor/benjaminrh:user-session';
 import { Partitioner } from 'meteor/local:partitioner';
 
@@ -22,7 +22,7 @@ describe("importing records", function() {
         contact: { defaultNumber: 0 },
         opportunity: { defaultNumber: 0 },
         product: { defaultNumber: 0 },
-        project: { defaultNumber: 0 },
+        job: { defaultNumber: 0 },
         purchaseorder: { defaultNumber: 0 }
       }
     };
@@ -202,7 +202,7 @@ describe("importing records", function() {
     importRows(importData, 'products', fieldMap, 'userId', {}, {});
   });
 
-  it("adds projects from an import data set", function(done) {
+  it("adds jobs from an import data set", function(done) {
     const importData = [
       {
         name: 'Test',
@@ -219,13 +219,13 @@ describe("importing records", function() {
       { schemaField: 'companyName', importField: 'companyName' }
     ];
 
-    sandbox.stub(Projects, 'findOne', () => null);
+    sandbox.stub(Jobs, 'findOne', () => null);
     sandbox.stub(Companies, 'findOne', function(a) {
       return { _id: 'companyId', name: 'Starfleet Headquarters'};
     });
 
     let i = 0;
-    sandbox.stub(Projects, 'insert', (data) => {
+    sandbox.stub(Jobs, 'insert', (data) => {
       chai.assert.equal(data.name, importData[i].name);
       chai.assert.equal(data.description, importData[i].description);
       chai.assert.equal(data.value, importData[i].value);
@@ -235,7 +235,7 @@ describe("importing records", function() {
       done();
     });
 
-    importRows(importData, 'projects', fieldMap, 'userId');
+    importRows(importData, 'jobs', fieldMap, 'userId');
   });
 
   it("adds purchase orders from an import data set", function(done) {

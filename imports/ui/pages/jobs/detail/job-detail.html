@@ -1,0 +1,71 @@
+<template name="jobDetail">
+  {{#with jobData}}
+    {{setPageTitle "Job - " name }}
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="pull-right">
+          <br>
+          {{> milestoneControl}}
+          <div class="clearfix"></div>
+          <p class="pull-right">
+            <a href="#" id="invertJobState">Mark {{#unless isMobile}}job{{/unless}} {{inverseState}}</a>
+
+          </p>
+        </div>
+
+      {{> breadcrumbs parentPath="/jobs" parentName="Jobs" recordName=breadcrumbName }}
+      <div class="watchlist-container">
+        {{> watchlistAdmin entityData=this collection="jobs"}}
+      </div>
+        <h1 class="entity-name" id="job-details">{{name}}</h1>
+
+        <div id="d3-stage-chart"></div>
+
+        {{> tagInput tags=tags collection='jobs' entityId=_id permissionToEdit='CanEditJobs'}}
+
+        {{> jobDetailsPanel }}
+
+        <div>
+          {{#if isInRole 'CanEditJobs'}}
+            {{#with this}}
+              {{> customFieldDisplay entity_data=this entity_type='job'}}
+            {{/with}}
+          {{/if}}
+        </div>
+
+        {{> documentContainer collectionName="jobs" id=this._id permissionRequired="CanEditJobs"}}
+
+        {{#if isInRole 'CanReadTasks'}}
+          <div class="row">
+            <div class="col-md-12">
+              {{#with this}}
+                {{> taskDisplay entity_type="job" entity_id=_id}}
+              {{/with}}
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h1 id="activity-timeline">
+          Activity Timeline
+          <a class="btn btn-primary{{#unless isMobile}} pull-right{{/unless}}" data-placement="bottom" data-toggle="tooltip" href="#" id="add-activity" title="New activity for this job">
+            <i class="fa fa-fw fa-plus"></i>
+            Add activity</a>
+        </h1>
+        {{> activityTimeline activities=activities}}
+      </div>
+    </div>
+
+    {{#if isInRole 'CanEditJobs'}}
+      {{#if isMobile}}
+        {{> fabEdit entity="Job" record=this}}
+      {{/if}}
+    {{/if}}
+
+    {{> autoformModals}}
+  {{/with}}
+</template>

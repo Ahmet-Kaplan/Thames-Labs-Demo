@@ -1,4 +1,4 @@
-import { Activities, Companies, Contacts, CustomFields, Projects, PurchaseOrders, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, CustomFields, Jobs, PurchaseOrders, Opportunities, Tasks } from '/imports/api/collections.js';
 Meteor.methods({
   'company.checkExistsByName': function(companyName) {
     var user = Meteor.users.findOne({
@@ -170,7 +170,7 @@ Meteor.methods({
       }
     });
 
-    Projects.update({
+    Jobs.update({
       companyId: sourceId
     }, {
       $set: {
@@ -183,7 +183,7 @@ Meteor.methods({
         return {
           code: -1,
           error: err,
-          source: 'Project record merge failed'
+          source: 'Job record merge failed'
         };
       }
     });
@@ -226,7 +226,7 @@ Meteor.methods({
           return {
             code: -1,
             error: err,
-            source: 'Project record merge failed'
+            source: 'Job record merge failed'
           };
         }
       });

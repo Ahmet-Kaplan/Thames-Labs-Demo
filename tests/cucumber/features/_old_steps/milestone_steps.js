@@ -1,11 +1,11 @@
 module.exports = function() {
 
-  this.Given(/^a project type has been created$/, function() {
-    server.call('addDefaultProjectType', 'Acme Corp');
+  this.Given(/^a job type has been created$/, function() {
+    server.call('addDefaultJobType', 'Acme Corp');
   });
 
-  this.Given(/^a limited project type has been created$/, function() {
-    server.call('addLimitedProjectType', 'Acme Corp');
+  this.Given(/^a limited job type has been created$/, function() {
+    server.call('addLimitedJobType', 'Acme Corp');
   });
 
 };

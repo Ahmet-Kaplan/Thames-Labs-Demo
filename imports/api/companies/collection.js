@@ -1,4 +1,4 @@
-import { Activities, Contacts, CustomFields, Projects, PurchaseOrders, Tenants } from '/imports/api/collections.js';
+import { Activities, Contacts, CustomFields, Jobs, PurchaseOrders, Tenants } from '/imports/api/collections.js';
 import { CompanySchema } from './schema.js';
 import { CompanyFilters } from './filters.js';
 
@@ -40,8 +40,8 @@ Companies.helpers({
       }
     });
   },
-  projects: function() {
-    return Projects.find({
+  jobs: function() {
+    return Jobs.find({
       companyId: this._id,
       active: true
     }, {
@@ -225,7 +225,7 @@ Companies.after.insert(function(userId, doc) {
         }
       }, function(err) {
         if (err) {
-          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID company value: " + err, 'tenant', doc._groupId);
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's ID company value: " + err, 'tenant', doc._groupId);
           return;
         }
       });

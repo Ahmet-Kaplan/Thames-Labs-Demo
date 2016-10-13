@@ -63,63 +63,19 @@
         {{#if isInRole 'CanEditContacts'}}{{#with this}} {{> customFieldDisplay entity_data=this entity_type='contact'}} {{/with}}{{/if}}
       </div>
 
-      {{#if isInRole 'CanReadOpportunities'}}
+      {{#if isInRole 'CanReadJobs'}}
       <div class="panel panel-default">
-        <div class="panel-heading" id="opportunities">
-          Opportunities
-          {{#if wonOpps}}
-            - <a href="#" id="won-opps">Show won ({{wonOpps}})</a>
+        <div class="panel-heading" id="jobs">
+          Jobs
+          {{#if inactiveJobs}}
+            - <a href="#" id="inactive-jobs">Show Inactive ({{inactiveJobs}})</a>
           {{/if}}
-          {{#if lostOpps}}
-            - <a href="#" id="lost-opps">Show lost ({{lostOpps}})</a>
-          {{/if}}
-          {{#if isInRole 'CanCreateOpportunities'}}
-          <a href="#" id="add-opportunity" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New opportunity for this company"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
+          {{#if isInRole 'CanCreateJobs'}}
+          <a href="#" id="add-job" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New job for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
         </div>
         <ul class="list-group">
-          {{#each opportunities}}
-          <a href="{{pathFor route='opportunity' id=_id}}" class="list-group-item">
-            <i class="fa fa-fw fa-lightbulb-o"></i> {{name}}
-            <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a>
-          {{else}}
-          <li class="list-group-item">No opportunities</li>
-          {{/each}}
-        </ul>
-      </div>
-      {{/if}}
-
-      {{#if isInRole 'CanReadProjects'}}
-      <div class="panel panel-default">
-        <div class="panel-heading" id="projects">
-          Projects
-          {{#if inactiveProjects}}
-            - <a href="#" id="inactive-projects">Show Inactive ({{inactiveProjects}})</a>
-          {{/if}}
-          {{#if isInRole 'CanCreateProjects'}}
-          <a href="#" id="add-project" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New project for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
-        </div>
-        <ul class="list-group">
-          {{#each projects}} {{> ContactProjectListItem}} {{else}}
-          <li class="list-group-item">No projects</li>
-          {{/each}}
-        </ul>
-      </div>
-      {{/if}}
-
-      {{#if isInRole 'CanReadPurchaseOrders'}}
-      <div class="panel panel-default">
-        <div class="panel-heading" id="purchase-orders">
-          Purchase Orders{{#if isInRole 'CanCreatePurchaseOrders'}}
-           <a href="#" id="add-purchase-order" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" data-placement="bottom" title="New purchase order for this contact"><i class="fa fa-fw fa-plus"></i> Add</a> {{/if}}
-        </div>
-        <ul class="list-group">
-          {{#each purchaseOrders}}
-          <a href="{{pathFor route='purchaseOrder' id=_id}}" class="list-group-item">
-            <i class="fa fa-fw fa-shopping-cart"></i> {{description}}
-            <i class="fa fa-fw fa-chevron-right pull-right"></i>
-          </a> {{else}}
-          <li class="list-group-item">No purchase orders</li>
+          {{#each jobs}} {{> ContactJobListItem}} {{else}}
+          <li class="list-group-item">No jobs</li>
           {{/each}}
         </ul>
       </div>
@@ -162,14 +118,14 @@
   {{> autoformModals}} {{/with}}
 </template>
 
-<template name="ContactProjectListItem">
-  <a href="{{pathFor route='project' id=_id}}" class="list-group-item">
+<template name="ContactJobListItem">
+  <a href="{{pathFor route='job' id=_id}}" class="list-group-item">
     <div class="row">
       <div class="col-md-8">
         <i class="fa fa-fw fa-sitemap"></i> {{name}}
       </div>
       <div class="col-md-3 userDataDisplay">
-        {{#if companyProject}}<i class="fa fa-fw fa-building"></i> {{projectCompanyName}}{{/if}}
+        {{#if companyJob}}<i class="fa fa-fw fa-building"></i> {{jobCompanyName}}{{/if}}
       </div>
       <div class="col-md-1">
         <i class="fa fa-fw fa-chevron-right pull-right"></i>

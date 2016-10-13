@@ -17,10 +17,10 @@ Feature: Allow users to see widgets
     When I have the "CanReadOpportunities" permission
     Then I can add the opportunities widget
 
-  Scenario: A user can add the project widget if they have permission
-    Then I can not add the project widget
-    When I have the "CanReadProjects" permission
-    Then I can add the project widget
+  Scenario: A user can add the job widget if they have permission
+    Then I can not add the job widget
+    When I have the "CanReadJobs" permission
+    Then I can add the job widget
 
   Scenario: A user can add the products widget if they have permission
     Then I can not add the products widget

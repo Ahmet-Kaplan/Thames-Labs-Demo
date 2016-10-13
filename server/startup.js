@@ -71,22 +71,6 @@ Meteor.startup(function() {
     }
   });
 
-  //Keep purchase order information sync'ed
-  Partitioner.directOperation(function() {
-    var pos = PurchaseOrders.find({}).fetch();
-
-    _.forEach(pos, function(po) {
-
-      if (!po.locked) {
-        PurchaseOrders.update(po._id, {
-          $set: {
-            locked: false
-          }
-        });
-      }
-    });
-  });
-
   // Clear any event logs older than X days old
   var days = 45;
   Meteor.call('eventLog.clearRecentEvents', days, function(err, res) {

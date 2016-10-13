@@ -46,8 +46,8 @@ Template.searchHelp.helpers({
             multiple: true
           },
           {
-            name: 'Project',
-            description: 'Shows tasks connected to the selected project',
+            name: 'Job',
+            description: 'Shows tasks connected to the selected job',
             multiple: true
           },
           {
@@ -165,31 +165,31 @@ Template.searchHelp.helpers({
             multiple: false
           }
         ];
-      case 'projects':
+      case 'jobs':
         return [
           {
             name: 'Active',
-            description: 'Select whether to show or hide active projects',
+            description: 'Select whether to show or hide active jobs',
             mulitple: false
           },
           {
             name: 'Company',
-            description: 'Shows the projects connected to the given company',
+            description: 'Shows the jobs connected to the given company',
             multiple: true
           },
           {
             name: 'Contact',
-            description: 'Shows the projects connected to the given contact',
+            description: 'Shows the jobs connected to the given contact',
             multiple: true
           },
           {
             name: 'Manager',
-            description: 'Shows projects assigned to the given user',
+            description: 'Shows jobs assigned to the given user',
             multiple: true
           },
           {
             name: 'Tag',
-            description: 'Shows projects with the selected tag',
+            description: 'Shows jobs with the selected tag',
             multiple: true
           },
           {
@@ -199,22 +199,22 @@ Template.searchHelp.helpers({
           },
           {
             name: 'Due After',
-            description: 'Shows projects with a due date after the selected date',
+            description: 'Shows jobs with a due date after the selected date',
             multiple: false
           },
           {
             name: 'Due Before',
-            description: 'Shows projects with a due date before the selected date',
+            description: 'Shows jobs with a due date before the selected date',
             multiple: false
           },
           {
             name: 'Value <',
-            description: 'Shows projects with a value smaller than the given value. Can be used together with Value >',
+            description: 'Shows jobs with a value smaller than the given value. Can be used together with Value >',
             multiple: false
           },
           {
             name: 'Value >',
-            description: 'Shows projects with a value greater than the given value. Can be used together with Value <',
+            description: 'Shows jobs with a value greater than the given value. Can be used together with Value <',
             multiple: false
           }
         ];
@@ -237,7 +237,7 @@ Template.searchHelp.helpers({
           },
           {
             name: 'Status',
-            description: 'Shows projects with the selected status (' + Schemas.PurchaseOrder.schema().status.allowedValues.join(', ') + ')',
+            description: 'Shows jobs with the selected status (' + Schemas.PurchaseOrder.schema().status.allowedValues.join(', ') + ')',
             multiple: true
           },
           {

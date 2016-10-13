@@ -5,10 +5,7 @@ Template.companySummaryWidget.onCreated(function() {
   this.totalTasks = new ReactiveVar(0);
   this.totalCompanies = new ReactiveVar(0);
   this.totalContacts = new ReactiveVar(0);
-  this.totalProjects = new ReactiveVar(0);
-  this.totalOpportunities = new ReactiveVar(0);
-  this.totalProducts = new ReactiveVar(0);
-  this.totalPo = new ReactiveVar(0);
+  this.totalJobs = new ReactiveVar(0);
 
   this.setValues = () => {
     Meteor.call('report.tasksCreated', (err, data) => {
@@ -20,17 +17,8 @@ Template.companySummaryWidget.onCreated(function() {
     Meteor.call('report.contactsStored', (err, data) => {
       this.totalContacts.set(data);
     });
-    Meteor.call('report.numberOfProjects', (err, data) => {
-      this.totalProjects.set(data);
-    });
-    Meteor.call('report.openOpportunities', (err, data) => {
-      this.totalOpportunities.set(data);
-    });
-    Meteor.call('report.numberOfProducts', (err, data) => {
-      this.totalProducts.set(data);
-    });
-    Meteor.call('report.numberOfPurchaseOrders', (err, data) => {
-      this.totalPo.set(data);
+    Meteor.call('report.numberOfJobs', (err, data) => {
+      this.totalJobs.set(data);
     });
   };
 });
@@ -55,16 +43,7 @@ Template.companySummaryWidget.helpers({
   totalContacts: function() {
     return Template.instance().totalContacts.get();
   },
-  totalProjects: function() {
-    return Template.instance().totalProjects.get();
+  totalJobs: function() {
+    return Template.instance().totalJobs.get();
   },
-  totalOpportunities: function() {
-    return Template.instance().totalOpportunities.get();
-  },
-  totalProducts: function() {
-    return Template.instance().totalProducts.get();
-  },
-  totalPo: function() {
-    return Template.instance().totalPo.get();
-  }
 });

@@ -7,7 +7,7 @@ import './delete-tenant-account.html';
 Template.deleteTenantAccount.events({
   'click #deleteUserAccount': function() {
     bootbox.prompt({
-      title: "Delete your RealTimeCRM account<br><small>You are about to flag your company's RealTimeCRM account for deletion. To confirm, please enter your password and click OK.</small>",
+      title: "Delete your Thames Labs account<br><small>You are about to flag your company's Thames Labs account for deletion. To confirm, please enter your password and click OK.</small>",
       inputType: "password",
       callback: function(result) {
         if (result !== null) {

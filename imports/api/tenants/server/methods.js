@@ -1,6 +1,5 @@
-import { Activities, Companies, Contacts, EventLog, Projects, Products, PurchaseOrders, PurchaseOrderItems, Opportunities, Tasks, Tenants } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, Jobs, Tasks, Tenants } from '/imports/api/collections.js';
 import { ActivitySchema } from '/imports/api/activities/schema.js';
-import { PurchaseOrderSchema } from '/imports/api/purchase-orders/schema.js';
 
 Meteor.methods({
   'tenant.remove': function(tenantId) {
@@ -19,25 +18,13 @@ Meteor.methods({
         Tasks.remove({});
         console.log('Deleting tags...');
         Meteor.tags.remove({});
-        console.log('Deleting events...');
-                //EventLog is not partitioned
-        EventLog.remove({
-          group: tenantId
-        });
         console.log('Deleting companies...');
         Companies.remove({});
         console.log('Deleting contacts...');
         Contacts.remove({});
-        console.log('Deleting opportunities...');
-        Opportunities.remove({});
-        console.log('Deleting projects...');
-        Projects.remove({});
-        console.log('Deleting purchase order items...');
-        PurchaseOrderItems.remove({});
-        console.log('Deleting purchase orders...');
-        PurchaseOrders.remove({});
-        console.log('Deleting products...');
-        Products.remove({});
+
+        console.log('Deleting jobs...');
+        Jobs.remove({});
         console.log('Deleting activities...');
         Activities.remove({});
       });
@@ -85,10 +72,7 @@ Meteor.methods({
             plan: tenant.plan,
             companies: Companies.find({_groupId: tenant._id}).count(),
             contacts: Contacts.find({_groupId: tenant._id}).count(),
-            opportunities: Opportunities.find({_groupId: tenant._id}).count(),
-            projects: Projects.find({_groupId: tenant._id}).count(),
-            products: Products.find({_groupId: tenant._id}).count(),
-            purchaseOrders: PurchaseOrders.find({_groupId: tenant._id}).count(),
+            jobs: Jobs.find({_groupId: tenant._id}).count(),
             activities: Activities.find({_groupId: tenant._id}).count(),
             tasks: Tasks.find({_groupId: tenant._id}).count(),
             currency: (tenant.settings.currency ? tenant.settings.currency : 'Not set'),
@@ -134,7 +118,7 @@ Meteor.methods({
       });
     });
 
-    const txt = 'Tenant administrator ' + adminUser.profile.name + ' for ' + tenant.name + ' has requested that their account be deleted. Please log into the administration area of RealTimeCRM to process this removal';
+    const txt = 'Tenant administrator ' + adminUser.profile.name + ' for ' + tenant.name + ' has requested that their account be deleted. Please log into the administration area of Thames Labs to process this removal';
     Email.send({
       to: 'realtimecrm-notifications@cambridgesoftware.co.uk',
       from: 'RealTimeCRM <admin@realtimecrm.co.uk>',
@@ -210,10 +194,7 @@ Meteor.methods({
 
       var companyIDs = [];
       var contactIDs = [];
-      var opportunityIDs = [];
-      var projectIDs = [];
-      var productIDs = [];
-      var purchaseOrderIDs = [];
+      var jobIDs = [];
       var importTotal = 0;
       var percDone = 0;
       var newPerc = 0;
@@ -271,9 +252,7 @@ Meteor.methods({
             primaryEntityDisplayData: displayData,
             companyId: (entityType === "companies" ? entityId : null),
             contactId: (entityType === "contacts" ? entityId : null),
-            projectId: (entityType === "projects" ? entityId : null),
-            purchaseOrderId: (entityType === "purchaseorders" ? entityId : null),
-            opportunityId: (entityType === "opportunities" ? entityId : null),
+            jobId: (entityType === "jobs" ? entityId : null),
             taskId: (entityType === "tasks" ? entityId : null),
             createdBy: randomUser._id
           });
@@ -357,56 +336,8 @@ Meteor.methods({
         }
       }
 
-      if(options.opportunities > 0) {
-        for (var ox = 0; ox < options.opportunities; ox++) {
-          setPercentageComplete();
-          randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
-          var oname = faker.company.bs();
-          var createdDate = faker.date.recent(100);
-          var oCompId = (faker.random.boolean() ? companyIDs[Math.floor(Math.random() * companyIDs.length)] : null);
-          var oContId = null;
-          if(oCompId) {
-            if(faker.random.boolean()) {
-              contactIndex = Math.floor(Math.random() * Contacts.find({companyId: oCompId}).count());
-              tempContact = Contacts.find({companyId: oCompId}).fetch()[contactIndex];
-              if(tempContact) oContId = tempContact._id;
-            }
-          }
-          var stages = tenant.settings.opportunity.stages;
-
-          var oppId = Opportunities.insert({
-            name: oname,
-            description: faker.lorem.sentence(),
-            currentStageId: Math.floor(Math.random() * stages.length),
-            createdBy: randomUser._id,
-            items: [],
-            value: parseInt(faker.commerce.price(), 10),
-            companyId: oCompId,
-            contactId: oContId,
-            date: createdDate,
-            estCloseDate: faker.date.future(0.5, createdDate)
-          });
-
-          opportunityIDs.push(oppId);
-
-          if(options.tasks > 0) {
-            for (var otx = 0; otx < options.tasks; otx++) {
-              setPercentageComplete();
-              createTaskForEntity('opportunity', oppId);
-            }
-          }
-
-          if(options.activities > 0) {
-            for (var oax = 0; oax < options.activities; oax++) {
-              setPercentageComplete();
-              createActivityForEntity('opportunities', oppId, oname);
-            }
-          }
-        }
-      }
-
-      if(options.projects > 0) {
-        for (var px = 0; px < options.projects; px++) {
+      if(options.jobs > 0) {
+        for (var px = 0; px < options.jobs; px++) {
           setPercentageComplete();
           randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
           var pname = faker.company.bs();
@@ -419,7 +350,7 @@ Meteor.methods({
               if(tempContact) pContId = tempContact._id;
             }
           }
-          var projectId = Projects.insert({
+          var jobId = Jobs.insert({
             name: pname,
             description: faker.lorem.sentence(),
             companyId: pCompId,
@@ -429,96 +360,19 @@ Meteor.methods({
             createdBy: randomUser._id
           });
 
-          projectIDs.push(projectId);
+          jobIDs.push(jobId);
 
           if(options.tasks > 0) {
             for (var ptx = 0; ptx < options.tasks; ptx++) {
               setPercentageComplete();
-              createTaskForEntity('project', projectId);
+              createTaskForEntity('job', jobId);
             }
           }
 
           if(options.activities > 0) {
             for (var pax = 0; pax < options.activities; pax++) {
               setPercentageComplete();
-              createActivityForEntity('projects', projectId, pname);
-            }
-          }
-        }
-      }
-
-      if(options.products > 0) {
-        for (var rx = 0; rx < options.products; rx++) {
-          setPercentageComplete();
-          randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
-          var prName = faker.commerce.productName();
-
-          var productId = Products.insert({
-            name: prName,
-            description: faker.lorem.sentence(),
-            cost: parseInt(faker.finance.amount(), 10),
-            price: parseInt(faker.commerce.price(), 10),
-            createdBy: randomUser._id
-          });
-
-          productIDs.push(productId);
-
-          // if(options.tasks > 0) {
-          //   for (var rtx = 0; rtx < options.tasks; rtx++) {
-          //     setPercentageComplete();
-          //     createTaskForEntity('product', productId);
-          //   }
-          // }
-
-          // if(options.activities > 0) {
-          //   for (var rax = 0; rax < options.activities; rax++) {
-          //     setPercentageComplete();
-          //     createActivityForEntity('products', productId, prName);
-          //   }
-          // }
-        }
-      }
-
-      if(options.purchaseOrders > 0) {
-        for (var dx = 0; dx < options.purchaseOrders; dx++) {
-          setPercentageComplete();
-          randomUser = usersArray[Math.floor(Math.random() * usersArray.length)];
-          var poCompId = (faker.random.boolean() ? companyIDs[Math.floor(Math.random() * companyIDs.length)] : null);
-          var poContId = null;
-          if(poCompId) {
-            if(faker.random.boolean()) {
-              contactIndex = Math.floor(Math.random() * Contacts.find({companyId: poCompId}).count());
-              tempContact = Contacts.find({companyId: poCompId}).fetch()[contactIndex];
-              if(tempContact) poContId = tempContact._id;
-            }
-          }
-          var poname = faker.commerce.product();
-
-          var purchaseOrderId = PurchaseOrders.insert({
-            userId: randomUser._id,
-            supplierCompanyId: poCompId,
-            supplierContactId: poContId,
-            description: poname,
-            supplierReference: faker.finance.account(),
-            status: _.sample(PurchaseOrderSchema._schema.status.allowedValues),
-            orderDate: faker.date.past(100),
-            paymentMethod: _.sample(PurchaseOrderSchema._schema.paymentMethod.allowedValues),
-            createdBy: randomUser._id
-          });
-
-          purchaseOrderIDs.push(purchaseOrderId);
-
-          // if(options.tasks > 0) {
-          //   for (var dtx = 0; dtx < options.tasks; dtx++) {
-          //     setPercentageComplete();
-          //     createTaskForEntity('product', productId);
-          //   }
-          // }
-
-          if(options.activities > 0) {
-            for (var dax = 0; dax < options.activities; dax++) {
-              setPercentageComplete();
-              createActivityForEntity('purchaseorders', purchaseOrderId, poname);
+              createActivityForEntity('jobs', jobId, pname);
             }
           }
         }

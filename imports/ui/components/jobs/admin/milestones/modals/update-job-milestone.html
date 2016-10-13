@@ -1,0 +1,28 @@
+<template name="updateJobMilestone">
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="draggableModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+          <h4>Update job milestone</h4>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="form-group" id="milestone-name-input">
+              <label for="job-milestone-name">Name</label>
+              <input class="form-control" id="job-milestone-name" placeholder="Name for job milestone" type="text" autofocus>
+            </div>
+            <div class="form-group" id="milestone-description-input">
+              <label for="job-milestone-description">Description</label>
+              <input class="form-control" id="job-milestone-description" placeholder="Description for job milestone" type="text">
+            </div>
+            <button class="btn btn-primary" id="update-milestone" role="button">Update</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

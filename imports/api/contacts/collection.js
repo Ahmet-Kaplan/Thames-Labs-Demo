@@ -1,4 +1,4 @@
-import { Activities, Companies, CustomFields, PurchaseOrders, Tenants } from '/imports/api/collections.js';
+import { Activities, Companies, CustomFields, Tenants } from '/imports/api/collections.js';
 import { ContactSchema } from './schema.js';
 import { ContactFilters } from './filters.js';
 
@@ -39,15 +39,6 @@ Contacts.helpers({
       }
     });
   },
-  purchaseOrders: function() {
-    return PurchaseOrders.find({
-      supplierContactId: this._id
-    }, {
-      sort: {
-        createdAt: -1
-      }
-    });
-  }
 });
 
 ////////////////////
@@ -227,7 +218,7 @@ Contacts.after.insert(function(userId, doc) {
         }
       }, function(err) {
         if (err) {
-          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's RealTime ID contact value: " + err, 'tenant', doc._groupId);
+          LogServerEvent(LogLevel.Error, "An error occurred whilst updating the tenant's ID contact value: " + err, 'tenant', doc._groupId);
           return;
         }
       });

@@ -1,0 +1,43 @@
+<template name="insertContactJobModal">
+  <div class="modal fade"  id="draggableModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4>Add new job</h4>
+        </div>
+
+        <div class="modal-body">
+          {{#autoForm collection="Jobs" id="insertJobForm" type="insert"}}
+            {{> afQuickField name="name"}}
+            {{> afQuickField name="jobTypeId" options=jobTypes }}
+            {{> afQuickField name="description" rows=3}}
+
+            <div class="form-group">
+              <label for="proj-value" class="control-label">Value</label>
+              <div class="input-group">
+                <span class="input-group-addon">{{userCurrencySymbol}}</span>
+                <input type="number" name="value" id="proj-value" data-schema-key="value" step="0.01" class="form-control">
+              </div>
+              <span class="help-block"></span>
+            </div>
+
+            {{> afQuickField name="dueDate" }}
+            {{> autosuggest name="userId" index=UsersIndex}}
+            {{> afQuickField name="staff" type="select-checkbox" options=usersAsOptions}}
+            {{> afQuickField name="createdBy" value=currentUser }}
+            {{#if companyId}}
+              {{> afQuickField type="text" value=companyName label="Company" readonly=true}}
+              {{> afQuickField name="companyId" id="selectedCompany" type="hidden" }}
+            {{/if}}
+            {{> afQuickField type="text" value=contactName label="Contact" readonly=true}}
+            {{> afQuickField name="contactId" id="companyContacts" type="hidden" value=contactId}}
+            <button type="submit" class="btn btn-primary">Create</button>
+          {{/autoForm}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

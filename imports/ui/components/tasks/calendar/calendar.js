@@ -105,7 +105,7 @@ Template.displayCalendar.helpers({
                     'company': 'primary',
                     'contact': 'info',
                     'opportunity': 'warning',
-                    'project': 'danger',
+                    'job': 'danger',
                     'product': 'success',
                     'user': 'user-task'
                   };

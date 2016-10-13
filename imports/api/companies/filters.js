@@ -37,7 +37,7 @@ export const CompanyFilters = {
     nameField: 'name'
   },
   sequencedIdentifier: {
-    display: 'RealTime Company Identifier:',
+    display: 'Company Identifier:',
     prop: 'sequencedIdentifier',
     allowMultiple: false,
     verify: function(sequencedIdentifier) {

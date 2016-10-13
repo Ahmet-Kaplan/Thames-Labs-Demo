@@ -65,7 +65,7 @@ Template.tenantList.events({
     var searchDefinition = index.getComponentDict().get('searchDefinition');
     var searchOptions = index.getComponentDict().get('searchOptions');
 
-    toastr.info("Exporting, please wait...", "RealTimeCRM", {
+    toastr.info("Exporting, please wait...", "Thames Labs", {
       timeOut: 6000,
       closeButton: false,
       "debug": false,
@@ -85,7 +85,7 @@ Template.tenantList.events({
       Meteor.call('tenant.getExportData', results, function(err, res) {
         if(err) throw new Meteor.Error(err);
         var filename = [
-          'realtimecrm-',
+          'ThamesLabs-',
           collectionName,
           '-export_',
           moment().format("MMM-Do-YY"),
@@ -116,7 +116,7 @@ Template.tenantList.events({
       }
 
       var filename = [
-        'realtimecrm-users-export_',
+        'ThamesLabs-users-export_',
         moment().format("MMM-Do-YY"),
         '.csv'
       ].join('');

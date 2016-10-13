@@ -46,21 +46,21 @@ Feature: Allow users to access a central view of all activities
     And I click "#menu-link-activities"
     Then I do not see activities from "opportunities" in the list "#activity-list"
 
-  #Project
-  Scenario: A user with Project Read permission can see a project activity in the list
+  #Job
+  Scenario: A user with Job Read permission can see a job activity in the list
     Given a "Company" has been created
-    And a "Project" has been created
-    And I have the "CanReadProjects" permission
-    And the project has an activity
+    And a "Job" has been created
+    And I have the "CanReadJobs" permission
+    And the job has an activity
     And I click "#menu-link-activities"
-    Then I see a "projects" activity with the notes "Test project activity" in the list "#activity-list"
+    Then I see a "jobs" activity with the notes "Test job activity" in the list "#activity-list"
 
-  Scenario: A user without Project Read permission cannot see a project activity in the list
+  Scenario: A user without Job Read permission cannot see a job activity in the list
     Given a "Company" has been created
-    And a "Project" has been created
-    And the project has an activity
+    And a "Job" has been created
+    And the job has an activity
     And I click "#menu-link-activities"
-    Then I do not see activities from "projects" in the list "#activity-list"
+    Then I do not see activities from "jobs" in the list "#activity-list"
 
   #Purchase Order
   Scenario: A user with Purchase Order Read permission can see a purchase order activity in the list

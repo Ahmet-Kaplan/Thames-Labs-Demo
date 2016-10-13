@@ -15,36 +15,6 @@ function tidyUpUI(context) {
   $("body").removeClass('modal-open');
 }
 
-// Adjust Heap settings to replace their crazy user ID with something more readable
-function setHeapParams(context) {
-  if (Roles.userIsInRole(Meteor.userId(), 'superadmin')) return;
-
-  const user = Meteor.users.findOne({
-    _id: Meteor.userId()
-  });
-  if (!user) return;
-  const profile = user.profile;
-  if (!profile) return;
-
-  if (heap) {
-    const name = profile.name;
-    const tenant = Tenants.findOne({
-      _id: user.group
-    });
-    const tenantName = (tenant ? " (" + tenant.name + ")" : '');
-
-    const identifier = name + tenantName;
-    heap.identify(identifier);
-    heap.addUserProperties({
-      'Name': name,
-      'Tenant': (tenant ? tenant.name : '')
-    });
-  }
-}
-
-FlowRouter.triggers.enter([setHeapParams]);
-
-
 // These functions add the triggers to routes globally
 router.triggers.exit(tidyUpUI);
 
@@ -261,44 +231,23 @@ router.route('/contacts/:id', {
   }
 });
 
-router.route('/projects', {
-  name: 'projects',
+router.route('/jobs', {
+  name: 'jobs',
   action: function() {
     layout.render('appLayout', {
-      main: 'projectsList'
+      main: 'jobsList'
     });
   }
 });
 
-router.route('/projects/:id', {
-  name: 'project',
+router.route('/jobs/:id', {
+  name: 'job',
   subscriptions: function(params) {
-    this.register('projectById', subs.subscribe('projectById', params.id));
+    this.register('jobById', subs.subscribe('jobById', params.id));
   },
   action: function() {
     layout.render('appLayout', {
-      main: 'projectDetail'
-    });
-  }
-});
-
-router.route('/purchaseorders', {
-  name: 'purchaseorders',
-  action: function() {
-    layout.render('appLayout', {
-      main: 'purchaseOrderList'
-    });
-  }
-});
-
-router.route('/purchaseorders/:id', {
-  name: 'purchaseOrder',
-  subscriptions: function(params) {
-    this.register('purchaseOrderById', subs.subscribe('purchaseOrderById', params.id));
-  },
-  action: function() {
-    layout.render('appLayout', {
-      main: 'purchaseOrderDetail'
+      main: 'jobDetail'
     });
   }
 });
@@ -320,66 +269,6 @@ router.route('/tasks/:id', {
   action: function() {
     layout.render('appLayout', {
       main: 'taskDetail'
-    });
-  }
-});
-
-router.route('/events', {
-  name: 'events',
-  action: function() {
-    layout.render('appLayout', {
-      main: "events"
-    });
-  }
-});
-
-router.route('/products', {
-  name: 'products',
-  action: function() {
-    layout.render('appLayout', {
-      main: 'productList'
-    });
-  }
-});
-
-router.route('/products/:id', {
-  name: 'product',
-  subscriptions: function(params) {
-    this.register('productById', subs.subscribe('productById', params.id));
-  },
-  action: function() {
-    layout.render('appLayout', {
-      main: 'productDetail'
-    });
-  }
-});
-
-router.route('/opportunities', {
-  name: 'opportunities',
-  action: function() {
-    layout.render('appLayout', {
-      main: 'opportunityList'
-    });
-  }
-});
-
-router.route('/opportunities/:id', {
-  name: 'opportunity',
-  subscriptions: function(params) {
-    this.register('opportunityById', subs.subscribe('opportunityById', params.id));
-  },
-  action: function() {
-    layout.render('appLayout', {
-      main: 'opportunityDetail'
-    });
-  }
-});
-
-router.route('/salespipeline/:id?', {
-  name: 'salespipeline',
-  action: function() {
-    layout.render('appLayout', {
-      main: 'salesPipeline'
     });
   }
 });

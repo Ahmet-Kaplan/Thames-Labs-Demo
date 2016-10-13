@@ -8,7 +8,7 @@ const tour = new Tour({
     {
       element: "#menu-link-contacts",
       title: "Add a contact",
-      content: "This interactive tutorial will take you through the steps for adding a contact. <br><br>  In order to make the most of your experience with RealTimeCRM, you'll need some contacts to work with. Let's go to the contacts list - just click the contacts option on the nav bar.",
+      content: "This interactive tutorial will take you through the steps for adding a contact. <br><br>  In order to make the most of your experience with Thames Labs, you'll need some contacts to work with. Let's go to the contacts list - just click the contacts option on the nav bar.",
       onNext: function() {
         FlowRouter.go('/contacts');
       },

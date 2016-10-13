@@ -6,25 +6,22 @@ import '/imports/ui/components/charts/sales-history.js';
 import '/imports/ui/components/maps/viewer/map-viewer.js';
 import '/imports/ui/components/custom-fields/custom-field-panel.js';
 import '/imports/ui/components/fab/fab-edit.js';
-import '/imports/ui/components/opportunities/modals/insert/insert-company-opp-modal.js';
 import '/imports/ui/components/activity/activity-timeline.js';
 import '/imports/ui/components/companies/modals/update-company-modal.js';
 import '/imports/ui/components/companies/modals/word-help-modal.html';
 import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tags/tag-badges/tag-badges.js';
-import '/imports/ui/components/purchase-orders/modals/insert/insert-company-purchase-order.js';
 import '/imports/ui/components/tasks/panel/task-panel.js';
 import '/imports/ui/components/contacts/modals/insert-company-contact-modal.js';
-import '/imports/ui/components/projects/modals/insert-company-project-modal.js';
+import '/imports/ui/components/jobs/modals/insert-company-job-modal.js';
 import '/imports/ui/components/jumplist/jumplist.js';
 import '/imports/ui/components/watchlist/watchlist.js';
 
-import { Activities, Companies, Projects, Opportunities } from '/imports/api/collections.js';
+import { Activities, Companies, Jobs } from '/imports/api/collections.js';
 import { permissionHelpers } from '/imports/api/permissions/permission-helpers.js';
 import bootbox from 'bootbox';
 
 Template.companyDetail.onCreated(function() {
-  this.oppStats = new ReactiveVar({});
   // Redirect if data doesn't exist
   this.autorun(function() {
     const company = Companies.findOne(FlowRouter.getParam('id'));
@@ -38,10 +35,7 @@ Template.companyDetail.onCreated(function() {
   this.autorun(function() {
     const companyid = FlowRouter.getParam('id'),
           currentInstance = Template.instance();
-    Meteor.call('opportunities.getCompanySalesHistory', companyid, function(err, res) {
-      currentInstance.oppStats.set(res);
-    });
-  });
+      });
 
   // Redirect if read permission changed
   this.autorun(function() {
@@ -51,11 +45,10 @@ Template.companyDetail.onCreated(function() {
   // Subscribe to necessary data
   const companyId = FlowRouter.getParam('id');
   this.subscribe('contactsByCompanyId', companyId);
-  this.subscribe('projectsByCompanyId', companyId);
+  this.subscribe('jobsByCompanyId', companyId);
   this.subscribe('activityByCompanyId', companyId);
   this.subscribe('purchaseOrdersByCompanyId', companyId);
   this.subscribe('tasksByEntityId', companyId);
-  this.subscribe('opportunitiesByCompanyId', companyId);
 });
 
 Template.companyDetail.onRendered(function() {
@@ -127,9 +120,9 @@ Template.companyDetail.events({
       company: this
     });
   },
-  'click #add-project': function(event) {
+  'click #add-job': function(event) {
     event.preventDefault();
-    Modal.show('insertCompanyProjectForm', {
+    Modal.show('insertCompanyJobForm', {
       companyId: this._id
     });
   },
@@ -152,12 +145,6 @@ Template.companyDetail.events({
   'click #edit-company': function(event) {
     event.preventDefault();
     Modal.show('updateCompanyModal', this);
-  },
-  'click #add-opportunity': function(event) {
-    event.preventDefault();
-    Modal.show('insertCompanyOpportunityModal', {
-      companyId: this._id
-    });
   },
   'click #companyTelephone': function(event, template) {
     const data = this;
@@ -189,18 +176,10 @@ Template.companyDetail.events({
       }
     });
   },
-  'click #inactive-projects': function(event, template) {
+  'click #inactive-jobs': function(event, template) {
     const url = "?f%5Bcompany%5D=" + this._id + "&f%5Bactive%5D=No";
-    FlowRouter.go("/projects" + url);
+    FlowRouter.go("/jobs" + url);
   },
-  'click #won-opps': function(event, template) {
-    const url = "?f%5Bcompany%5D=" + this._id + "&f%5Bstate%5D=Won";
-    FlowRouter.go("/opportunities" + url);
-  },
-  'click #lost-opps': function(event, template) {
-    const url = "?f%5Bcompany%5D=" + this._id + "&f%5Bstate%5D=Lost";
-    FlowRouter.go("/opportunities" + url);
-  }
 });
 
 Template.companyDetail.helpers({
@@ -236,27 +215,8 @@ Template.companyDetail.helpers({
   hasAddress: function() {
     return (this.lat || this.lng || this.address || this.city || this.postcode || this.country || this.county);
   },
-  opportunities: function() {
-    return Opportunities.find({
-      companyId: this._id,
-      isArchived: { $ne: true }
-    });
-  },
-  wonOpps: function() {
-    return Opportunities.find({
-      companyId: this._id,
-      hasBeenWon: true
-    }).count();
-  },
-  lostOpps: function() {
-    return Opportunities.find({
-      companyId: this._id,
-      isArchived: true,
-      hasBeenWon: false
-    }).count();
-  },
-  inactiveProjects: function() {
-    return Projects.find({
+  inactiveJobs: function() {
+    return Jobs.find({
       companyId: this._id,
       active: false
     }).count();
@@ -278,20 +238,10 @@ Template.companyDetail.helpers({
       icon: 'fa-user',
       permission: 'CanReadContacts'
     }, {
-      text: 'Opportunities',
-      anchor: 'opportunities',
-      icon: 'fa-lightbulb-o',
-      permission: 'CanReadOpportunities'
-    }, {
-      text: 'Current Projects',
-      anchor: 'projects',
+      text: 'Current Jobs',
+      anchor: 'jobs',
       icon: 'fa-sitemap',
-      permission: 'CanReadProjects'
-    }, {
-      text: 'Purchase Orders',
-      anchor: 'purchase-orders',
-      icon: 'fa-shopping-cart',
-      permission: 'CanReadPurchaseOrders'
+      permission: 'CanReadJobs'
     }, {
       text: 'Tasks',
       anchor: 'tasks',
@@ -304,14 +254,4 @@ Template.companyDetail.helpers({
       permission: 'CanReadCompanies'
     }];
   },
-  oppStats: function() {
-    return Template.instance().oppStats.get();
-  },
-  showOppStats: function() {
-    const oppStats = Template.instance().oppStats.get();
-    if (oppStats) {
-      const sum = oppStats.oppsWon + oppStats.oppsLost + oppStats.oppsPending;
-      return (sum > 0);
-    }
-  }
 });

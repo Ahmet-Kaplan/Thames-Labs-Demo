@@ -6,10 +6,7 @@ import { Companies, Contacts } from '/imports/api/collections.js';
 import { formatActivityForExport } from './entities/activities.js';
 import { formatCompanyForExport } from './entities/companies.js';
 import { formatContactForExport } from './entities/contacts.js';
-import { formatOpportunityForExport } from './entities/opportunities.js';
-import { formatProductForExport } from './entities/products.js';
-import { formatProjectForExport } from './entities/projects.js';
-import { formatPurchaseOrderForExport } from './entities/purchaseorders.js';
+import { formatJobForExport } from './entities/jobs.js';
 import { formatTaskForExport } from './entities/tasks.js';
 
 // These column names are removed from all final exports
@@ -20,11 +17,8 @@ const OMITTEDCOLUMNS = [
   'createdBy',
   'companyId',
   'contactId',
-  'opportunityId',
-  'projectId',
-  'purchaseOrderId',
+  'jobId',
   'taskId',
-  'productId',
   'currentStageId',
   'items',
   'userId',
@@ -39,8 +33,8 @@ const OMITTEDCOLUMNS = [
   'assigneeId',
   'entityId',
   'entityType',
-  'projectTypeId',
-  'projectMilestoneId',
+  'jobTypeId',
+  'jobMilestoneId',
   'stripe'
 ];
 
@@ -72,20 +66,11 @@ const getRowForExport = (record, collectionName) => {
     case "contacts":
       return formatContactForExport(record);
 
-    case "opportunities":
-      return formatOpportunityForExport(record);
-
-    case "projects":
-      return formatProjectForExport(record);
-
-    case "products":
-      return formatProductForExport(record);
+    case "jobs":
+      return formatJobForExport(record);
 
     case "activities":
       return formatActivityForExport(record);
-
-    case "purchaseorders":
-      return formatPurchaseOrderForExport(record);
 
     case "tasks":
       return formatTaskForExport(record);
@@ -117,7 +102,7 @@ Meteor.methods({
 
 
   'search.dataDump': function() {
-    var collections = ['activities', 'companies', 'contacts', 'opportunities', 'projects', 'products', 'purchaseorders', 'tasks', 'eventLog'];
+    var collections = ['activities', 'companies', 'contacts', 'jobs', 'tasks'];
     var dataArray = [];
     var user = Meteor.users.findOne({
       _id: this.userId

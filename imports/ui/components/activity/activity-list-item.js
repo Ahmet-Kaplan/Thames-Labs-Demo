@@ -26,7 +26,7 @@ Template.activityListItem.onCreated(function() {
         case 'opportunities':
           icon += 'lightbulb-o';
           break;
-        case 'projects':
+        case 'jobs':
           icon += 'sitemap';
           break;
         case 'purchaseorders':
@@ -72,8 +72,8 @@ Template.activityListItem.helpers({
         return 'contact';
       case 'opportunities':
         return 'opportunity';
-      case 'projects':
-        return 'project';
+      case 'jobs':
+        return 'job';
       case 'purchaseorders':
         return 'purchaseOrder';
     }

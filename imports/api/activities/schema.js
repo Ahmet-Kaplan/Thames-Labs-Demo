@@ -40,19 +40,9 @@ export const ActivitySchema = new SimpleSchema({
     label: 'Contact',
     optional: true
   },
-  projectId: {
+  jobId: {
     type: String,
-    label: 'Project',
-    optional: true
-  },
-  purchaseOrderId: {
-    type: String,
-    label: 'Purchase Order',
-    optional: true
-  },
-  opportunityId: {
-    type: String,
-    label: 'Opportunity',
+    label: 'Job',
     optional: true
   },
   taskId: {

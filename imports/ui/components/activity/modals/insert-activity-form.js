@@ -12,7 +12,7 @@ Template.insertContactActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
   $('#activityTimestamp').data('DateTimePicker').date(moment());
 });
-Template.insertProjectActivityModal.onRendered(function() {
+Template.insertJobActivityModal.onRendered(function() {
   $('#activityTimestamp').val(moment().format('DD/MM/YYYY HH:mm'));
   $('#activityTimestamp').data('DateTimePicker').date(moment());
 });
@@ -160,18 +160,18 @@ Template.insertContactActivityModal.helpers({
   }
 });
 
-Template.insertProjectActivityModal.events({
+Template.insertJobActivityModal.events({
   'click #confirm': function(e, t) {
-    if (AutoForm.validateForm('insertProjectActivityForm')) {
+    if (AutoForm.validateForm('insertJobActivityForm')) {
       if ($('#create-task-toggle').prop('checked')) {
         const setReminder = $('#add-reminder-toggle').prop('checked'),
               reminder = `${$('#reminderValue').val()}.${$('#reminderUnit').val()}`,
               d = $('#helperContent .taskdatetimepicker'),
               dtp = d.data('DateTimePicker'),
               taskDate = dtp.date().toDate(),
-              taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertProjectActivityForm')}`;
+              taskTitle = `Follow Up ${AutoForm.getFieldValue('type', 'insertJobActivityForm')}`;
 
-        const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertProjectActivityForm'), {
+        const desc = sanitizeHtml(AutoForm.getFieldValue('notes', 'insertJobActivityForm'), {
           allowedTags: [],
           allowedAttributes: []
         });
@@ -184,8 +184,8 @@ Template.insertProjectActivityModal.events({
           completed: false,
           remindMe: setReminder,
           reminder: (setReminder ? reminder : null),
-          entityType: 'project',
-          entityId: AutoForm.getFieldValue('primaryEntityId', 'insertProjectActivityForm'),
+          entityType: 'job',
+          entityId: AutoForm.getFieldValue('primaryEntityId', 'insertJobActivityForm'),
           createdBy: Meteor.userId()
         }, function(err) {
           if (err) toastr.error(`An error occurred whilst creating a task from this activity: ${err}`);
@@ -195,7 +195,7 @@ Template.insertProjectActivityModal.events({
   }
 });
 
-Template.insertProjectActivityModal.helpers({
+Template.insertJobActivityModal.helpers({
   currentDateTime: function() {
     return moment();
   },
@@ -310,10 +310,10 @@ AutoForm.hooks({
       toastr.error('Activity creation error: ' + error);
     }
   },
-  insertProjectActivityForm: {
+  insertJobActivityForm: {
     onSuccess: function() {
       Modal.hide();
-      toastr.success('Project activity created.');
+      toastr.success('Job activity created.');
     },
     onError: function(formType, error) {
       toastr.error('Activity creation error: ' + error);

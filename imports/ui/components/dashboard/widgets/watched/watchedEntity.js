@@ -98,13 +98,13 @@ Template.watchedEntityWidget.helpers({
             });
           }
 
-          if (data.collection === "projects") {
-            Meteor.subscribe("activityByProjectId", data.id);
+          if (data.collection === "jobs") {
+            Meteor.subscribe("activityByJobId", data.id);
 
             Activities.find({
-              projectId: data.id
+              jobId: data.id
             }).map(function(activityRecord) {
-              activityRecord.linkPath = "project";
+              activityRecord.linkPath = "job";
               activityRecord.faIcon = "sitemap";
               activityRecord.userName = Meteor.users.findOne({
                 _id: activityRecord.createdBy

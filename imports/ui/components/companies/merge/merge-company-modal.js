@@ -54,7 +54,7 @@ Template.mergeModal.events({
       callback: function(result) {
         if (result === true) {
 
-          toastr.info("Merge in progress...", "RealTimeCRM", {
+          toastr.info("Merge in progress...", "Thames Labs", {
             timeOut: 3000,
             closeButton: false,
             "debug": false,

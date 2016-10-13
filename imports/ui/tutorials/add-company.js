@@ -8,7 +8,7 @@ const tour = new Tour({
     {
       element: "#menu-link-companies",
       title: "Add a company",
-      content: "This interactive tutorial will take you through the steps for adding a company. <br><br>  In order to make the most of your experience with RealTimeCRM, you'll need some companies to work with. Let's go to the companies list - just click the company option on the nav bar.",
+      content: "This interactive tutorial will take you through the steps for adding a company. <br><br>  In order to make the most of your experience with Thames Labs, you'll need some companies to work with. Let's go to the companies list - just click the company option on the nav bar.",
       onNext: function() {
         FlowRouter.go('/companies');
       },
@@ -32,7 +32,7 @@ const tour = new Tour({
     {
       element: "#companyName",
       title: "Add a company",
-      content: "We understand filling out a huge form can be time consuming, so just provide RealTimeCRM with a company's name or website and it will do all the hard work for you!",
+      content: "We understand filling out a huge form can be time consuming, so just provide Thames Labs with a company's name or website and it will do all the hard work for you!",
       placement: "right",
       backdrop: false,
       delay: 500,

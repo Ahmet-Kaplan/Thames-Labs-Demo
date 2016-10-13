@@ -38,23 +38,12 @@ Meteor.methods({
           activityDetails.contactId = result._id;
           activityDetails.primaryEntityDisplayData = `${result.forename} ${result.surname}`;
           break;
-        case 'projects':
+        case 'jobs':
           // activityDetails.companyId = result.companyId;
           // activityDetails.contactId = result.contactId;
-          // activityDetails.projectId = result._id;
+          // activityDetails.jobId = result._id;
           // activityDetails.primaryEntityDisplayData = result.name;
           break;
-        case 'purchaseorders':
-          // activityDetails.companyId = result.companyId;
-          // activityDetails.contactId = result.contactId;
-          // activityDetails.purchaseOrderId = result._id;
-          // activityDetails.primaryEntityDisplayData = result.description;
-          break;
-        case 'opportunities':
-          // activityDetails.companyId = result.companyId;
-          // activityDetails.contactId = result.contactId;
-          // activityDetails.opportunityId = result._id;
-          // activityDetails.primaryEntityDisplayData = result.name;
       }
       Activities.insert(activityDetails);
     });

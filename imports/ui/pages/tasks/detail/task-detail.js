@@ -5,7 +5,7 @@ import '/imports/ui/components/tags/tag-input/tag-input.js';
 import '/imports/ui/components/tasks/modals/update-task-modal.js';
 import '/imports/ui/components/documents/document-container.js';
 
-import { Activities, Companies, Contacts, Projects, Opportunities, Tasks } from '/imports/api/collections.js';
+import { Activities, Companies, Contacts, Jobs, Tasks } from '/imports/api/collections.js';
 
 import bootbox from 'bootbox';
 
@@ -25,11 +25,8 @@ Template.taskDetail.onCreated(function() {
       case 'contact':
         this.subscribe('contactById', task.entityId);
         break;
-      case 'project':
-        this.subscribe('projectById', task.entityId);
-        break;
-      case 'opportunity':
-        this.subscribe('opportunityById', task.entityId);
+      case 'job':
+        this.subscribe('jobById', task.entityId);
         break;
     }
   }
@@ -148,28 +145,15 @@ Template.taskDetail.helpers({
         }
         break;
 
-      case 'project':
-        handle = Template.instance().subscribe("projectById", entityId);
+      case 'job':
+        handle = Template.instance().subscribe("jobById", entityId);
         if (handle && handle.ready()) {
-          const p = Projects.findOne(entityId);
+          const p = Jobs.findOne(entityId);
           entityData = {
-            type: 'Project',
+            type: 'Job',
             icon: 'sitemap',
             name: p.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadProjects'])
-          };
-        }
-        break;
-
-      case 'opportunity':
-        handle = Template.instance().subscribe("opportunityById", entityId);
-        if (handle && handle.ready()) {
-          const p = Opportunities.findOne(entityId);
-          entityData = {
-            type: 'Opportunity',
-            icon: 'lightbulb-o',
-            name: p.name,
-            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadOpportunities'])
+            permissionToRead: Roles.userIsInRole(Meteor.userId(), ['CanReadJobs'])
           };
         }
         break;

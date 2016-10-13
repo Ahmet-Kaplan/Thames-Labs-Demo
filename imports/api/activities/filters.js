@@ -97,7 +97,7 @@ export const ActivityFilters = {
     display: 'Record Types:',
     prop: 'recordTypes',
     defaultOptions: function() {
-      return _.filter(['Companies', 'Contacts', 'Opportunities', 'Projects', 'Purchase Orders'],
+      return _.filter(['Companies', 'Contacts', 'Jobs'],
         (type) => !_.includes(getDisallowedPermissions(Meteor.userId()), _.toLower(_.replace(type, ' ', '')))
       );
     },
